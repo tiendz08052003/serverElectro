@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="mt-4">
+        <div class="container">
+            <h1 style="display: flex; justify-content: center;">Tạo một sản phẩm mới</h1>
+            <form method="post" action="/product/create/store" class="form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                    <label for="brand" class="form-label">Brand</label>
+                    <select name="idBrand" class="form-select" aria-label="Default select example">
+                        <option selected>--- select ---</option>
+                        <% listBrand.map((brand, index) => { %>
+                            <option value=<%= brand._id %> > <%= brand.name %> </option>
+                        <% }) %>
+                    </select>
+                    <label for="color" class="form-label">Color</label>
+                    <select name="idColor" class="form-select" aria-label="Default select example">
+                        <option selected>--- select ---</option>
+                        <% listColor.map((color, index) => { %>
+                            <option value=<%= color._id %> > <%= color.name %> </option>
+                        <% }) %>
+                    </select>
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control form-file">
+                    <input type="text" class="form-control form-input" id="image" name="image" style="display: contents;">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price">
+                    <label for="discount" class="form-label">Discount</label>
+                    <input type="number" class="form-control" id="discount" name="discount">
+                    <div class="form-check" style="margin-top: 20px;">
+                        <label for="discount" class="form-label">Recommend</label>
+                        <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault" name="recommend">
+                    </div>
+                    <label for="idType" class="form-label">Selection</label>
+                    <select name="idType" class="form-select" aria-label="Default select example">
+                        <option selected>--- select ---</option>
+                        <% listType.map((type, index) => { %>
+                            <option value=<%= type._id %> > <%= type.name %> </option>
+                        <% }) %>
+                    </select>
+                    <div class="introduce">
+                        <label for="introduce" class="form-label">Introduce</label>
+                        <i class="fa-solid fa-plus iconAdd"></i>
+                        <div class="introduce__input"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm khóa học</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const $ = document.querySelector.bind(document);
+
+        const previewFiles = (file) => {
+            var results;
+
+            const reader = new FileReader();
+            
+            reader.readAsDataURL(file);
+
+            const value = (x) => {
+                $(".form-input").value = x;
+            }
+            
+            reader.onloadend = () => {
+                value(reader.result);
+            }
+        }
+        
+        $(".form-file").addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            previewFiles(file);
+        })
+        
+        $(".form-input").addEventListener("click", (e) => {
+            console.log(typeof e.target.value);
+        })
+
+        $(".iconAdd").addEventListener("click", () => {
+            $(".introduce__input").innerHTML += '<input style="margin-bottom: 10px;" type="text" class="form-control" id="introduce" name="introduce">';
+        })
+    </script>
+</body>
+</html>

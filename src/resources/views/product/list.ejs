@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="app">
+        <div class="container">
+            <form class="mt-4" name="handle-forms-action" method="" action="">
+                <h3>Khóa học của tôi</h3>
+                <a href="/product/trash">Thùng rác</a>
+                <div class="d-flex align-items-center mt-2 ps-2">
+                    <select class="form-select select__control" aria-label="Default select example" name="action">
+                        <option value="select" selected>-- Select all --</option>
+                        <option value="delete">Xóa</option>
+                    </select>
+                    <button class="btn btn-primary w-100 h-100 p-1 bg-primary disabled ms-2 btn__submit">Thực hiện</button>
+                </div>
+            
+                <table class="table mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col" > 
+                                <div class="form-check">
+                                    <input class="value-check-input" type="checkbox" name="courseIds[]" value="" id="flexCheckChecked">
+                                </div>
+                            </th>
+                            <th scope="col">
+                                ID
+                            </th>
+                            <th scope="col">Loại</th>
+                            <th scope="col">
+                                Tên sản phầm
+                            </th>
+                            <th scope="col">Thời gian tạo</th>   
+                            <th scope="col">Status</th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(listData.length === 0) { %>
+                            <tr class="text-center">
+                                <td colspan="6">
+                                    Không có khóa học nào hoặc đã bị xóa
+                                    <a href="/product/create">Hãy vào tạo khóa học</a> hoặc
+                                    <a href="/product/trash">Hãy vào thùng rác</a>
+                                </td>
+                            </tr>
+                        <% } else { %> 
+                            <% listData.map((data, index) => {  %>
+                                <tr>
+                                    <th>
+                                        <div class="form-check">
+                                            <input class="value-check-input" type="checkbox" name="courseIds[]" value="" id="flexCheckChecked">
+                                        </div>
+                                    </th>
+                                    <td scope="row"><%= data._id %></td>
+                                    <th scope="row"><%= data.type %></th>
+                                    <td scope="row"><%= data.name %></td>
+                                    <td scope="row"><%= data.createdAt %></td>
+                                    <td>
+                                        <a href="/product/edit/<%= data._id %>" class="btn btn-link">Sửa</a>
+                                        <a href="" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-course-modal" data-id=<%= data._id %>>Xóa</a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </form>
+            <div class="modal" tabindex="-1" id="delete-course-modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Notification</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this field?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger btn-delete">Delete</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        
+            <form method="POST" name="delete-course-form"></form>
+        </div>
+    </div>
+
+    <script>
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelectorAll.bind(document);
+
+        const deleteCourseModal = document.getElementById('delete-course-modal');
+        const btnDelete = $(".btn-delete");
+        const formDelete = document.forms['delete-course-form'];
+        
+        let idForm;
+
+        if (deleteCourseModal) {
+            deleteCourseModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+                idForm = button.getAttribute('data-id');
+            })
+        }
+
+        btnDelete.addEventListener("click", (e) => {
+            formDelete.action = "/product/list/delete/" + idForm + "/?_method=DELETE";
+            formDelete.submit();
+        })
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </body>
+</html>

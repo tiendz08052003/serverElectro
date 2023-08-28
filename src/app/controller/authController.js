@@ -188,7 +188,7 @@ const authController = {
                                 if(err) return res.status(401).json("Error hashed!!!");
                                 hashed = result
                                 sendMailServices(req.query.email, "Thay đổi mật khẩu tài khoản ELECTRO 👻",
-                                    `<a href="http://localhost:3000/account/accountForget?type=recoverPassword&email=${req.query.email}&hashEmail=${hashed}" >Bấm vào để lấy lại mật khẩu nhé ❤️</a>`    
+                                    `<a href="${process.env.REACT_URL}/account/accountForget?type=recoverPassword&email=${req.query.email}&hashEmail=${hashed}" >Bấm vào để lấy lại mật khẩu nhé ❤️</a>`    
                                 )
                                     .then(() => {
                                         res.status(200).json("Send success!!!")

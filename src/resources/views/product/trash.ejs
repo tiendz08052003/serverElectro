@@ -11,7 +11,7 @@
         <div class="container">
             <form class="mt-4" name="handle-forms-action" method="" action="">
                 <h3>Thùng rác của tôi</h3>
-                <a href="/product/list">List danh sách</a>
+                <a href="/api/product/list">List danh sách</a>
                 <div class="d-flex align-items-center mt-2 ps-2">
                     
                     <select class="form-select select__control" aria-label="Default select example" name="action">
@@ -41,7 +41,7 @@
                             <tr class="text-center">
                                 <td colspan="6">
                                     Không có khóa học nào bị xóa. 
-                                    <a href="/product/list">Hãy quay trở về khóa học</a>
+                                    <a href="/api/product/list">Hãy quay trở về khóa học</a>
                                 </td>
                             </tr>
                         <% } else {%> 
@@ -103,13 +103,13 @@
         btnRestore.onclick = (e) => {
             idForm = e.target.getAttribute("data-id")
             console.log(idForm);
-            formRestore.action = "/product/trash/restore/" + idForm + "/?_method=PATCH";
+            formRestore.action = "/api/product/trash/restore/" + idForm + "/?_method=PATCH";
             formRestore.submit();
         }
 
         btnDelete.onclick = () => {
             idForm = btnDeleteForever.getAttribute("data-id");
-            formDelete.action = "/product/trash/delete/" + idForm + "/?_method=DELETE";
+            formDelete.action = "/api/product/trash/delete/" + idForm + "/?_method=DELETE";
             formDelete.submit();
         }
 

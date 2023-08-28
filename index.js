@@ -53,7 +53,7 @@ app.use(morgan("dev"));
 app.set('view engine', 'ejs');
 
 // nếu chỉ có file views/index.js thì không cần câu lệnh dưới đây
-app.set('views', path.join(__dirname, 'resources', 'views'));
+app.set('views', path.join('src', 'resources', 'views'));
 
 // kết nối với các đường dẫn
 route(app);

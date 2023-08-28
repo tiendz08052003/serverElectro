@@ -11,7 +11,7 @@
         <div class="container">
             <form class="mt-4" name="handle-forms-action" method="" action="">
                 <h3>Khóa học của tôi</h3>
-                <a href="/product/trash">Thùng rác</a>
+                <a href="/api/product/trash">Thùng rác</a>
                 <div class="d-flex align-items-center mt-2 ps-2">
                     <select class="form-select select__control" aria-label="Default select example" name="action">
                         <option value="select" selected>-- Select all --</option>
@@ -44,8 +44,8 @@
                             <tr class="text-center">
                                 <td colspan="6">
                                     Không có khóa học nào hoặc đã bị xóa
-                                    <a href="/product/create">Hãy vào tạo khóa học</a> hoặc
-                                    <a href="/product/trash">Hãy vào thùng rác</a>
+                                    <a href="/api/product/create">Hãy vào tạo khóa học</a> hoặc
+                                    <a href="/api/product/trash">Hãy vào thùng rác</a>
                                 </td>
                             </tr>
                         <% } else { %> 
@@ -61,7 +61,7 @@
                                     <td scope="row"><%= data.name %></td>
                                     <td scope="row"><%= data.createdAt %></td>
                                     <td>
-                                        <a href="/product/edit/<%= data._id %>" class="btn btn-link">Sửa</a>
+                                        <a href="/api/product/edit/<%= data._id %>" class="btn btn-link">Sửa</a>
                                         <a href="" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-course-modal" data-id=<%= data._id %>>Xóa</a>
                                     </td>
                                 </tr>
@@ -110,7 +110,7 @@
         }
 
         btnDelete.addEventListener("click", (e) => {
-            formDelete.action = "/product/list/delete/" + idForm + "/?_method=DELETE";
+            formDelete.action = "/api/product/list/delete/" + idForm + "/?_method=DELETE";
             formDelete.submit();
         })
 

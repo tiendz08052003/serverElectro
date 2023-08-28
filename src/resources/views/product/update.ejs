@@ -11,7 +11,7 @@
     <div class="mt-4">
         <div class="container">
             <h1 style="display: flex; justify-content: center;">Sửa sản phẩm</h1>
-            <form method="post" action="/product/update/<%= singleData._id %>?_method=PUT">
+            <form method="post" action="/api/product/update/<%= singleData._id %>?_method=PUT">
                 <div class="mb-3">
                     <label for="topic" class="form-label">Loại</label>
                     <select value="<%= singleData.type %>" name="type" class="form-select" aria-label="Default select example">

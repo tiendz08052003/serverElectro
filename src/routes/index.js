@@ -13,32 +13,31 @@ import auth from "./auth.js"
 import storage from "./storage.js"
 
 function routes(app) {
-    app.use('/storage', storage);
+    app.use('/api/storage', storage);
 
-    app.use('/auth', auth);
+    app.use('/api/auth', auth);
 
-    app.use('/color', color);
+    app.use('/api/color', color);
 
-    app.use('/brand', brand);
+    app.use('/api/brand', brand);
 
-    app.use('/productCatalog', productCatalog);
+    app.use('/api/productCatalog', productCatalog);
 
-    app.use('/menu', menu);
+    app.use('/api/menu', menu);
 
-    app.use('/catalog', catalog);
+    app.use('/api/catalog', catalog);
 
-    app.use('/type', types);
+    app.use('/api/type', types);
 
-    app.use('/selection', selection);
+    app.use('/api/selection', selection);
     
-    app.use('/product', product);
+    app.use('/api/product', product);
     
-    app.use('/wishlist', wishlist);
+    app.use('/api/wishlist', wishlist);
     
-    app.use('/compare', compare);
+    app.use('/api/compare', compare);
 
-    app.use('/cart', cart);
-    
+    app.use('/api/cart', cart);
 }
     
 

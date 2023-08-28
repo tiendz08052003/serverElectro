@@ -11,6 +11,7 @@ import brand from "./brand.js"
 import color from "./color.js"
 import auth from "./auth.js"
 import storage from "./storage.js"
+import main from "./main.js"
 
 function routes(app) {
     app.use('/api/storage', storage);
@@ -38,6 +39,8 @@ function routes(app) {
     app.use('/api/compare', compare);
 
     app.use('/api/cart', cart);
+
+    app.use('/', main);
 }
     
 

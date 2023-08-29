@@ -58,12 +58,12 @@ const authController = {
                             res.status(200).json({...others, accessToken});
                         })
                         .catch(() => {
-                            res.status(404).json("Error!!");
+                            res.status(404).json("Error");
                         })
                 })
             })
             .catch(() => {
-                res.status(401).json("Error login!!!")
+                res.status(401).json("Error")
             })
     },
 
@@ -88,33 +88,33 @@ const authController = {
                             .then((data) => {
                                 sendMailServices(data.email, "Cảm ơn bạn đã thêm tài khoản ELECTRO 👻", "<b>Thank you for registering an account Electro</b>")
                                     .then(() => {
-                                        res.status(200).json("Send success!!!")
+                                        res.status(200).json("Success")
                                     })
                                     .catch(() => {
-                                        res.status(404).json("Send error!!!");
+                                        res.status(404).json("Error");
                                     })
                             })
                             .catch((err) => {
-                                res.status(401).json("Error add data!!!")
+                                res.status(401).json("Error")
                             })
                     })
                 })
                 .catch((err) => {
-                    res.status(401).json("Error salt!!!")
+                    res.status(401).json("Error")
                 }) 
         }
         else
-            res.status(401).json("Password duplicate!!!");
+            res.status(401).json("Error");
     },
 
     //[DELETE] /auth/delete/:id
     delete: (req, res, next) => {
         Auth.findByIdAndDelete({_id: req.params.id})
             .then(() => {
-                res.status(200).json("Delete successfully!!!")
+                res.status(200).json("Success")
             })
             .catch(() => {
-                res.status(403).json("Error delete!!!")
+                res.status(403).json("Error")
             })
     },
 
@@ -146,17 +146,17 @@ const authController = {
                                     res.status(200).json({accessToken: newAccessToken});
                                 })
                                 .catch(() => {
-                                    res.status(404).json("Error!!!");
+                                    res.status(404).json("Error");
                                 })
                         })
                         .catch(() => {
-                            res.status(404).json("Error!!!");
+                            res.status(404).json("Error");
                         })
                     }
                 ) 
             })
             .catch(() => {
-                res.status(404).json("Error!!!");
+                res.status(404).json("Error");
             })
     },
 
@@ -191,24 +191,24 @@ const authController = {
                                     `<a href="${process.env.REACT_URL}/account/accountForget?type=recoverPassword&email=${req.query.email}&hashEmail=${hashed}" >Bấm vào để lấy lại mật khẩu nhé ❤️</a>`    
                                 )
                                     .then(() => {
-                                        res.status(200).json("Send success!!!")
+                                        res.status(200).json("Success!")
                                     })
                                     .catch((err) => {
-                                        res.status(404).json("Send error!!!");
+                                        res.status(404).json("Error");
                                     })
                             })
                         })
                         .catch(() => {
-                            res.status(404).json("genSalt error!!!");
+                            res.status(404).json("Error");
                         })
                 }
                 else 
                 {
-                    res.status(404).json("Email error!!!");
+                    res.status(404).json("Error");
                 }
             })
             .catch(() => {
-                res.status(404).json("Get product error!!!");
+                res.status(404).json("Error");
             })
         
     },
@@ -221,14 +221,14 @@ const authController = {
             .then((x) => {
                 salt = x;
                 bcrypt.hash(req.body.password, salt, (err, result) => {
-                    if(err) res.status(404).json("hashed error!!!");
+                    if(err) res.status(404).json("Error");
                     hashed = result;
                     Auth.updateOne({email: req.query.email}, {password: hashed})
                         .then(() => {
-                            res.status(200).json("Success change password!!!")
+                            res.status(200).json("Success")
                         })
                         .catch((err) => {
-                            res.status(404).json("Send error!!!");
+                            res.status(404).json("Error");
                         })
                 })
             })

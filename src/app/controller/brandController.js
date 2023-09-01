@@ -21,7 +21,7 @@ const brandController = {
         const data = new Brand(req.body);
         data.save()
             .then(() => {
-                res.redirect('/brand/create');
+                res.redirect('/api/brand/create');
             })
             .catch(next)
     }

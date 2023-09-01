@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const Data = new Schema({
     idSelection: { type: String, require: true },
-    name: { type: String, require: true , unique: true},
+    name: { type: String, require: true},
     slug: {type: String, slug: "name", unique: true},
 }, {
     timestamps: true, // Tự động lưu ngày giờ

@@ -1,6 +1,7 @@
 import Catalog from "../model/catalog.js";
 import utils from "../../utils/index.js";
 import * as menuServices from "../../Services/menuServices.js"
+import * as selectionServices from "../../Services/selectionServices.js"
 
 const catalogController = {
     //[GET] /catalog
@@ -14,12 +15,19 @@ const catalogController = {
 
     //[GET] /catalog/create
     create: (req, res, next) => {
-        const fetchAPI = async () => {
-            const data = await menuServices.getMenu();
-            res.render("catalog/create", {data});
+        let listMenu, listSelection;
+        const fetchAPI1 = async () => {
+            const res1 = await menuServices.getMenu();
+            listMenu = res1;
+            const fetchAPI2 = async () => {
+                const data = await selectionServices.getSelection();
+                listSelection = data;
+                res.render("catalog/create", {listMenu, listSelection});
+            }
+            fetchAPI2();
         }
 
-        fetchAPI();
+        fetchAPI1();
     },
 
     //[GET] /catalog/create/store
@@ -27,7 +35,7 @@ const catalogController = {
         const data = new Catalog(req.body);
         data.save()
             .then( ()=> {
-                res.redirect('/catalog/create')
+                res.redirect('/api/catalog/create')
             })
             .catch(next);
     },

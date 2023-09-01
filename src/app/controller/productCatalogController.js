@@ -2,6 +2,7 @@ import productCatalog from '../model/productCatalog.js';
 import utils from '../../utils/index.js';
 import * as catalogServices from "../../Services/catalogServices.js"
 import * as productServices from "../../Services/productServices.js"
+import * as menuServices from "../../Services/menuServices.js"
 
 const productCatalogController = {
     getProductCatalog: (req, res, next) => {
@@ -13,20 +14,25 @@ const productCatalogController = {
     },
 
     create: (req, res, next) => {
-        let data1, data2;
+        let listCatalog, listProduct, listMenu;
         const fetchAPI1 = async () => {
             const res1 = await catalogServices.getCatalog();
-            data1 = res1;
+            listCatalog = res1;
             const fetchAPI2 = async () => {
                 const res2 = await productServices.getProduct();
-                data2 = res2;
-                if(data1 && data2){
-                    res.render("productCatalog/create", {data1, data2});
+                listProduct = res2;
+                const fetchAPI3 = async () => {
+                    const res3 = await menuServices.getMenu();
+                    listMenu = res3;
+                    if(listCatalog && listProduct && listMenu){
+                        res.render("productCatalog/create", {listCatalog, listProduct, listMenu});
+                    }
+                    else
+                    {
+                        console.log("failed!!!");
+                    }
                 }
-                else
-                {
-                    console.log("failed!!!");
-                }
+                fetchAPI3();
             }
             fetchAPI2();
         }
@@ -38,7 +44,7 @@ const productCatalogController = {
         const data = new productCatalog(req.body);
         data.save()
             .then(() => {
-                res.redirect("/productCatalog/create");
+                res.redirect("/api/productCatalog/create");
             })
             .catch(next) 
     }

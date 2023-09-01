@@ -27,7 +27,7 @@ const menuController = {
         const data = new Menu(req.body);
         data.save()
             .then( ()=> {
-                res.redirect('/menu/create')
+                res.redirect('/api/menu/create')
             })
             .catch(next);
     },

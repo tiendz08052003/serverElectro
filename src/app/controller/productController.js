@@ -3,6 +3,7 @@ import utils from "../../utils/index.js";
 import * as typeServices from "../../Services/typeServices.js";
 import * as brandServices from "../../Services/brandServices.js";
 import * as colorSerVices from "../../Services/colorServices.js";
+import * as selectionSerVices from "../../Services/selectionServices.js";
 import cloudinary from "../../middleware/cloudinary.js";
 
 const productController = {
@@ -21,11 +22,16 @@ const productController = {
     create: (req, res, next) => {
         const fetchAPI1 = async () => {
             const listType = await typeServices.getType();
+            console.log(listType);
             const fetchAPI2 = async () => {
                 const listBrand = await brandServices.getBrand();
                 const fetchAPI3 = async () => {
                     const listColor = await colorSerVices.getColor();
-                    res.render("product/create", {listType, listBrand, listColor});
+                    const fetchAPI4 = async () => {
+                        const listSelection = await selectionSerVices.getSelection();
+                        res.render("product/create", {listSelection, listType, listBrand, listColor});
+                    }
+                    fetchAPI4();
                 }
                 fetchAPI3();
             }
@@ -38,7 +44,7 @@ const productController = {
     store: (req, res, next) => {
         cloudinary.uploader.upload(req.body.image, {
             upload_preset: 'unsigned_upload',
-            public_id: "avatar", 
+            public_id: req.body.name, 
             allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "webp"]
         }, (err, result) => {
             if(err)
@@ -51,7 +57,7 @@ const productController = {
                 });
                 data.save()
                     .then(() => {
-                        res.redirect("/productCatalog/create")
+                        res.redirect("/api/productCatalog/create")
                     })
                     .catch(next);
             }
@@ -113,7 +119,7 @@ const productController = {
     update: (req, res, next) => {
         Product.updateOne({_id: req.params.id}, req.body)
             .then(() => {
-                res.redirect("/product/list");
+                res.redirect("/api/product/list");
             })
             .catch(next)
     },
@@ -122,7 +128,7 @@ const productController = {
     delete: (req, res, next) => {
         Product.delete({_id: req.params.id})
             .then(() => {
-                res.redirect("/product/list");
+                res.redirect("/api/product/list");
             })
             .catch(next);
     },
@@ -131,7 +137,7 @@ const productController = {
     restore: (req, res, next) => {
         Product.restore({_id: req.params.id})
             .then(() => {
-                res.redirect("/product/list");
+                res.redirect("/api/product/list");
             })
             .catch(next)
     },
@@ -140,7 +146,7 @@ const productController = {
     deleteForever: (req, res, next) => {
         Product.findByIdAndDelete({_id: req.params.id})
             .then(() => {
-                res.redirect("/product/trash");
+                res.redirect("/api/product/trash");
             })
             .catch(next)
     }

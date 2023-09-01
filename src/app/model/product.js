@@ -9,6 +9,7 @@ const Schema = mongoose.Schema
 
 const Data = new Schema({
     idType: {type: String},
+    idSelection: {type: String},
     idBrand: {type: String},
     idColor: {type: String},
     name: {type: String, require: true, unique: true},
@@ -16,7 +17,7 @@ const Data = new Schema({
     price: {type: Number, require: true},
     discount: {type: Number},
     recommend: {type: String}, 
-    introduce: {type: Array, unique: true}, 
+    introduce: {type: Array}, 
     slug: { type: String, slug: "name", unique: true},
 },{
     timestamps: true, // Tự động lưu ngày giờ

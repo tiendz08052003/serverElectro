@@ -21,7 +21,7 @@ const colorController = {
         const data = new Color(req.body);
         data.save()
             .then(() => {
-                res.redirect('/color/create');
+                res.redirect('/api/color/create');
             })
             .catch(next)
     }

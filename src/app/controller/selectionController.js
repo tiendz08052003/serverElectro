@@ -21,7 +21,7 @@ const selectionController = {
         const data = new Selection(req.body)
         data.save()
             .then(() => {
-                res.redirect('/selection/create')
+                res.redirect('/api/selection/create')
             })
             .catch(next);
     }

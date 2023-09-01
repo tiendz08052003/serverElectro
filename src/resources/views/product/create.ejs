@@ -17,14 +17,14 @@
                     <input type="text" class="form-control" id="name" name="name">
                     <label for="brand" class="form-label">Brand</label>
                     <select name="idBrand" class="form-select" aria-label="Default select example">
-                        <option selected>--- select ---</option>
+                        <option value="" value=null selected>--- select ---</option>
                         <% listBrand.map((brand, index) => { %>
                             <option value=<%= brand._id %> > <%= brand.name %> </option>
                         <% }) %>
                     </select>
                     <label for="color" class="form-label">Color</label>
                     <select name="idColor" class="form-select" aria-label="Default select example">
-                        <option selected>--- select ---</option>
+                        <option value="" selected>--- select ---</option>
                         <% listColor.map((color, index) => { %>
                             <option value=<%= color._id %> > <%= color.name %> </option>
                         <% }) %>
@@ -40,9 +40,16 @@
                         <label for="discount" class="form-label">Recommend</label>
                         <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault" name="recommend">
                     </div>
-                    <label for="idType" class="form-label">Selection</label>
-                    <select name="idType" class="form-select" aria-label="Default select example">
-                        <option selected>--- select ---</option>
+                    <label for="idSelection" class="form-label">Selection</label>
+                    <select name="idSelection" class="form-select form-idSelection" aria-label="Default select example">
+                        <option value="" selected>--- select ---</option>
+                        <% listSelection.map((type, index) => { %>
+                            <option value=<%= type._id %> > <%= type.name %> </option>
+                        <% }) %>
+                    </select>
+                    <label for="idType" class="form-label">Type</label>
+                    <select name="idType" class="form-select form-idType" aria-label="Default select example">
+                        <option value="" selected>--- select ---</option>
                         <% listType.map((type, index) => { %>
                             <option value=<%= type._id %> > <%= type.name %> </option>
                         <% }) %>
@@ -90,6 +97,7 @@
         $(".iconAdd").addEventListener("click", () => {
             $(".introduce__input").innerHTML += '<input style="margin-bottom: 10px;" type="text" class="form-control" id="introduce" name="introduce">';
         })
+
     </script>
 </body>
 </html>

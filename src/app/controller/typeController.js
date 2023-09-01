@@ -27,7 +27,7 @@ const typeController = {
         const data = new Type(req.body);
         data.save()
             .then(() => {
-                res.redirect('/type/create')
+                res.redirect('/api/type/create')
             })
             .catch(next)
     },

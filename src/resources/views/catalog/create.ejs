@@ -18,8 +18,13 @@
                     <label for="idMenu" class="form-label">Chọn menu</label>
                     <select name="idMenu" class="form-select" aria-label="Default select example">
                         <option selected>--- select ---</option>
-                        <% data.map((childData, index) => { %>
-                            <option value=<%= childData._id %> > <%= childData.name %> </option>
+                        <% listSelection.map((selection, index) => { %>
+                            <option>---- <%= selection.name %> ----</option>
+                            <% listMenu.map((menu, index) => { %>
+                                <% if(selection._id === menu.idSelection) {%>
+                                    <option value=<%= menu._id %> > <%= menu.name %> </option>
+                                <% }%>
+                            <% }) %>
                         <% }) %>
                     </select>
                 </div>

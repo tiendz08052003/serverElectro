@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const httpRequest = axios.create({
-    baseURL: process.env.BE_URL
+    baseURL: "https://be-electro-api.onrender.com/api/"
 })
 
 export const get = async (path, options) => {

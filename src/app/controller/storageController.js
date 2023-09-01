@@ -1,5 +1,4 @@
 import Storage from "../model/storage.js";
-import utils from "../../utils/index.js";
 
 const storageController = {
     //[GET] /storage

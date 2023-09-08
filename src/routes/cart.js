@@ -4,7 +4,7 @@ import middlewareAuth from '../middleware/middlewareAuth.js';
 
 const route = express.Router();
 
-route.patch('/update/:id/:count', middlewareAuth.verifyToken, cartController.update);
+route.patch('/update/:idAuth/:idProduct/:count', middlewareAuth.verifyToken, cartController.update);
 
 route.delete('/delete/:id', middlewareAuth.verifyToken, cartController.delete);
 

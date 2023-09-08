@@ -5,6 +5,7 @@ import mongoose_delete from "mongoose-delete";
 const Schema = mongoose.Schema;
 
 const Data = new Schema({
+    idAuth: { type: String },
     idProduct: { type: String},
 }, {
     timestamps: true, // Tự động lưu ngày giờ

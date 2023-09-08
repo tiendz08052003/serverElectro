@@ -7,6 +7,7 @@ import AutoIncrementFactory from 'mongoose-sequence';
 const Schema = mongoose.Schema;
 
 const Data = new Schema({
+    idAuth: { type: String },
     idProduct: { type: String },
     count: {type: Number, require: true}
 }, {

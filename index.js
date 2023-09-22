@@ -14,6 +14,7 @@ const app = express();
 dotenv.config();
 
 // cookieParser
+// Phân tích nội dung có yêu cầu POST và PUT
 app.use(cookieParser());
 
 //connect moongoseDB
@@ -82,9 +83,3 @@ route(app);
 app.listen(port, () => {
     console.log("Listening port: " + port);
 })
-
-/*
-    - Tìm kiếm dữ liệu
-    - Thêm, sửa, xóa liệu
-    - Sắp xếp
-*/

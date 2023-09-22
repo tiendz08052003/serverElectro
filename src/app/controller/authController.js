@@ -23,7 +23,7 @@ const authController = {
             admin: data.admin
         },
             process.env.JWT_ACCESS_KEY,
-            { expiresIn: "20s" }
+            { expiresIn: "10m" }
         )
     ),
 

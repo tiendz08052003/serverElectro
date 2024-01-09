@@ -5,8 +5,8 @@ const compareController = {
     //[GET] /compare
     list:(req, res, next) => {
         Compare.find()
-            .then(datas => {
-                res.json(datas);
+            .then(data => {
+                res.json(data);
             })
             .catch(next)
     },

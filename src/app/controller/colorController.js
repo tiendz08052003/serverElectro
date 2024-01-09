@@ -16,7 +16,7 @@ const colorController = {
       res.render('color/create');  
     },
 
-    //[create] /color/create/store
+    //[post] /color/create/store
     store: (req, res, next) => {
         const data = new Color(req.body);
         data.save()

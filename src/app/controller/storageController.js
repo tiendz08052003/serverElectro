@@ -1,7 +1,7 @@
 import Storage from "../model/storage.js";
 
 const storageController = {
-    //[GET] /storage
+    //[GET] /storage/get
     getStorage: (req, res, next) => {
         Storage.find()
             .then((data) => {
@@ -12,8 +12,9 @@ const storageController = {
             })
     },
 
-    //[POST] 
+    //[POST] /storage/create/store
     store: (req, res, next) => {
+        console.log(req.body);
         const data = new Storage(req.body);
         data.save()
             .then(() => {
@@ -24,7 +25,7 @@ const storageController = {
             }) 
     },
 
-    //[POST] 
+    //[POST] /storage/delete/:id
     delete: (req, res, next) => {
         Storage.deleteOne({refreshToken: req.params.id})
             .then((data) => {

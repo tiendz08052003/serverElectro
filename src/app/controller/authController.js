@@ -119,8 +119,7 @@ const authController = {
     },
 
     //[POST] /auth/refresh
-    refresh: (req, res, next) => { 
-        console.log(req.cookies.refreshToken)
+    refresh: (req, res, next) => {
         const refreshToken = req.cookies.refreshToken;
         storageServices.getStorage()
             .then((result) => {

@@ -12,8 +12,11 @@ import color from "./color.js"
 import auth from "./auth.js"
 import storage from "./storage.js"
 import main from "./main.js"
+import chat from "./chat.js"
 
 function routes(app) {
+    app.use('/api/chat', chat);
+
     app.use('/api/storage', storage);
 
     app.use('/api/auth', auth);

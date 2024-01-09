@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const httpRequest = axios.create({
-    baseURL: "https://be-electro-api.onrender.com/api/"
+    baseURL: "https://be-electro-api.onrender.com/"
 })
 
 export const get = async (path, options) => {
@@ -11,6 +11,11 @@ export const get = async (path, options) => {
 
 export const post = async (path, data) => {
     const res = await httpRequest.post(path, data);
+    return res.data;
+}
+
+export const update = async (path, data) => {
+    const res = await httpRequest.patch(path, data);
     return res.data;
 }
 

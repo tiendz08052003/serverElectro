@@ -15,7 +15,7 @@ import * as chatServices from  "./src/Services/chatServices.js"
 const server = createServer(app); 
 const io = new Server(server, {
     cors: {
-      origin: "*"
+      origin: process.env.REACT_URL
     }
 });
 

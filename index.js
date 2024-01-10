@@ -15,8 +15,7 @@ import * as chatServices from  "./src/Services/chatServices.js"
 const server = createServer(app); 
 const io = new Server(server, {
     cors: {
-        origins:'*:*',
-        log:false,
+        origin: process.env.REACT_URL,
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true
@@ -30,7 +29,7 @@ dotenv.config();
 
 // cookieParser
 // Phân tích nội dung có yêu cầu POST và PUT
-app.use(cookieParser());
+server.use(cookieParser());
 
 //connect moongoseDB
 db.connect();
@@ -42,7 +41,7 @@ const __dirname = path.dirname(__filename);
 // tạo port cho sever
 const port = process.env.PORT || 3001;
 
-app.use(methodOverride('_method'));
+server.use(methodOverride('_method'));
 
 const corsOptions = {
     origin: process.env.REACT_URL,
@@ -51,7 +50,7 @@ const corsOptions = {
 };
 
 // Add headers before the routes are defined
-app.use(function (req, res, next) {
+server.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
@@ -71,28 +70,28 @@ app.use(function (req, res, next) {
 });
 
 // cho phép kết nối với địa chỉ website khác
-app.use(cors(corsOptions));
+server.use(cors(corsOptions));
 
 // Thiết lập nhận file json
-app.use(express.json({limit: '50mb'}));
+server.use(express.json({limit: '50mb'}));
 
 // Thiết lập nhận file url
-app.use(express.urlencoded({limit: '50mb', extended: true}));
+server.use(express.urlencoded({limit: '50mb', extended: true}));
 
 // link tới file public
-app.use(express.static(path.join(__dirname, 'public')));
+server.use(express.static(path.join(__dirname, 'public')));
 
 // console sau mỗi lần ctrl + s
-app.use(morgan("dev"));
+server.use(morgan("dev"));
 
 // làm views để dùng Embedded
-app.set('view engine', 'ejs');
+server.set('view engine', 'ejs');
 
 // nếu chỉ có file views/index.js thì không cần câu lệnh dưới đây
-app.set('views', path.join('src', 'resources', 'views'));
+server.set('views', path.join('src', 'resources', 'views'));
 
 // kết nối với các đường dẫn
-route(app);
+route(server);
 
 // ds user đã chat
 let arrayChat = [];

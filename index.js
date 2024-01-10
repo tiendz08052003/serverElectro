@@ -18,6 +18,7 @@ const io = new Server(server, {
         origin: process.env.REACT_URL,
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
+        allowedHeaders: ["my-custom-header"],
         credentials: true
     },
     allowEIO3: true
@@ -29,7 +30,7 @@ dotenv.config();
 
 // cookieParser
 // Phân tích nội dung có yêu cầu POST và PUT
-server.use(cookieParser());
+app.use(cookieParser());
 
 //connect moongoseDB
 db.connect();
@@ -41,7 +42,7 @@ const __dirname = path.dirname(__filename);
 // tạo port cho sever
 const port = process.env.PORT || 3001;
 
-server.use(methodOverride('_method'));
+app.use(methodOverride('_method'));
 
 const corsOptions = {
     origin: process.env.REACT_URL,
@@ -50,7 +51,7 @@ const corsOptions = {
 };
 
 // Add headers before the routes are defined
-server.use(function (req, res, next) {
+app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
@@ -70,28 +71,28 @@ server.use(function (req, res, next) {
 });
 
 // cho phép kết nối với địa chỉ website khác
-server.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 // Thiết lập nhận file json
-server.use(express.json({limit: '50mb'}));
+app.use(express.json({limit: '50mb'}));
 
 // Thiết lập nhận file url
-server.use(express.urlencoded({limit: '50mb', extended: true}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
 
 // link tới file public
-server.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // console sau mỗi lần ctrl + s
-server.use(morgan("dev"));
+app.use(morgan("dev"));
 
 // làm views để dùng Embedded
-server.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
 
 // nếu chỉ có file views/index.js thì không cần câu lệnh dưới đây
-server.set('views', path.join('src', 'resources', 'views'));
+app.set('views', path.join('src', 'resources', 'views'));
 
 // kết nối với các đường dẫn
-route(server);
+route(app);
 
 // ds user đã chat
 let arrayChat = [];

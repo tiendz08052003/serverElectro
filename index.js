@@ -20,8 +20,7 @@ const io = new Server(server, {
         transports: ['websocket', 'polling'],
         allowedHeaders: ["my-custom-header"],
         credentials: true
-    },
-    allowEIO3: true
+    }
 });
 
 

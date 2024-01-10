@@ -15,7 +15,8 @@ import * as chatServices from  "./src/Services/chatServices.js"
 const server = createServer(app); 
 const io = new Server(server, {
     cors: {
-        origin: process.env.REACT_URL,
+        origins:'*:*',
+        log:false,
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true

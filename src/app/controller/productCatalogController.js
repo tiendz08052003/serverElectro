@@ -15,29 +15,22 @@ const productCatalogController = {
 
     create: (req, res, next) => {
         let listCatalog, listProduct, listMenu;
-        const fetchAPI1 = async () => {
-            const res1 = await catalogServices.getCatalog();
-            listCatalog = res1;
-            const fetchAPI2 = async () => {
-                const res2 = await productServices.getProduct();
-                listProduct = res2;
-                const fetchAPI3 = async () => {
-                    const res3 = await menuServices.getMenu();
-                    listMenu = res3;
-                    if(listCatalog && listProduct && listMenu){
-                        res.render("productCatalog/create", {listCatalog, listProduct, listMenu});
-                    }
-                    else
-                    {
-                        console.log("failed!!!");
-                    }
-                }
-                fetchAPI3();
+        const fetchAPI = async () => {
+            const data = await catalogServices.getCatalog();
+            listCatalog = data;
+            data = await productServices.getProduct();
+            listProduct = data;
+            data = await menuServices.getMenu();
+            listMenu = data;
+            if(listCatalog && listProduct && listMenu){
+                res.render("productCatalog/create", {listCatalog, listProduct, listMenu});
             }
-            fetchAPI2();
+            else
+            {
+                console.log("failed!!!");
+            }
         }
-        fetchAPI1();
-        
+        fetchAPI();
     },
 
     store: (req, res, next) => {

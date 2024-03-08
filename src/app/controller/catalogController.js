@@ -16,18 +16,15 @@ const catalogController = {
     //[GET] /catalog/create
     create: (req, res, next) => {
         let listMenu, listSelection;
-        const fetchAPI1 = async () => {
-            const res1 = await menuServices.getMenu();
-            listMenu = res1;
-            const fetchAPI2 = async () => {
-                const data = await selectionServices.getSelection();
-                listSelection = data;
-                res.render("catalog/create", {listMenu, listSelection});
-            }
-            fetchAPI2();
+        const fetchAPI = async () => {
+            const data = await menuServices.getMenu();
+            listMenu = data;
+            data = await selectionServices.getSelection();
+            listSelection = data;
+            res.render("catalog/create", {listMenu, listSelection});
         }
 
-        fetchAPI1();
+        fetchAPI();
     },
 
     //[GET] /catalog/create/store

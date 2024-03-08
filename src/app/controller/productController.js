@@ -20,24 +20,14 @@ const productController = {
 
     //[GET] product/create 
     create: (req, res, next) => {
-        const fetchAPI1 = async () => {
+        const fetchAPI = async () => {
             const listType = await typeServices.getType();
-            console.log(listType);
-            const fetchAPI2 = async () => {
-                const listBrand = await brandServices.getBrand();
-                const fetchAPI3 = async () => {
-                    const listColor = await colorSerVices.getColor();
-                    const fetchAPI4 = async () => {
-                        const listSelection = await selectionSerVices.getSelection();
-                        res.render("product/create", {listSelection, listType, listBrand, listColor});
-                    }
-                    fetchAPI4();
-                }
-                fetchAPI3();
-            }
-            fetchAPI2();
+            const listBrand = await brandServices.getBrand();
+            const listColor = await colorSerVices.getColor();
+            const listSelection = await selectionSerVices.getSelection();
+            res.render("product/create", {listSelection, listType, listBrand, listColor});
+        fetchAPI();
         }
-        fetchAPI1();
     },
 
     //[POST] /product/create/store 
@@ -70,7 +60,7 @@ const productController = {
             .then((datas) => {
                 const a = utils.convertListProtoryToObject(datas)
                 const listData = a.filter(data => {
-                    if(data.name.includes(req.query.q))
+                    if(data.name.includes(req.query.q) || data.name.includes((req.query.q).toUpperCase()) || data.name.includes((req.query.q).toLowerCase()))
                     {
                         return data;
                     }

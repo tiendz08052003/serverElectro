@@ -1,4 +1,4 @@
-import Type from "../model/Type.js";
+import Type from "../model/type.js";
 import utils from "../../utils/index.js";
 import * as selectionServices from "../../Services/selectionServices.js"
 import * as typeServices from "../../Services/typeServices.js"

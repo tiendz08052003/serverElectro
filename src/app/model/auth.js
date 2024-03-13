@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import MongooseDelete from 'mongoose-delete';
+import slug from 'mongoose-slug-generator';
 
 const Schema = mongoose.Schema;
 
@@ -10,6 +12,9 @@ const Data = new Schema({
 }, {
     timestamps: true
 })
+
+mongoose.plugin(slug);
+Data.plugin(MongooseDelete, {deletedAt: true});
 
 const Auth = mongoose.model("auth", Data)
 

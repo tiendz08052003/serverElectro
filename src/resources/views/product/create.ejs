@@ -10,6 +10,9 @@
 <body>
     <div class="mt-4">
         <div class="container">
+            <h3>
+                <a href="/">Trang chủ</a>
+            </h3>
             <h1 style="display: flex; justify-content: center;">Tạo một sản phẩm mới</h1>
             <form method="post" action="/api/product/create/store" class="form">
                 <div class="mb-3">
@@ -56,9 +59,8 @@
                     </select>
                     <div class="introduce">
                         <label for="introduce" class="form-label">Introduce</label>
-                        <i class="fa-solid fa-plus iconAdd"></i>
-                        <div class="introduce__input"></div>
                     </div>
+                    <i class="fa-solid fa-plus iconAdd"></i>
                 </div>
                 <button type="submit" class="btn btn-primary">Thêm khóa học</button>
             </form>
@@ -95,8 +97,19 @@
         })
 
         $(".iconAdd").addEventListener("click", () => {
-            $(".introduce__input").innerHTML += '<input style="margin-bottom: 10px;" type="text" class="form-control" id="introduce" name="introduce">';
+            $(".introduce").innerHTML += `
+                <div class="introduce__input" style="display: flex; align-items: center;">
+                    <input style="display: inline-block;margin-bottom: 10px;" type="text" class="form-control" id="introduce" name="introduce">   
+                    <i style="padding-left: 10px" class="fa-solid fa-circle-xmark" onclick="handleDeleteIntroduce(this)"></i>  
+                </div>
+            `;
         })
+
+        
+        const handleDeleteIntroduce = (e) => {
+            const parent = e.parentElement;
+            parent.remove();
+        }
 
     </script>
 </body>

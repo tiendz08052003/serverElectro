@@ -1,23 +1,23 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const multer = require('multer');
+import Product from "../app/model/product.js";
+import cloudinary from "./cloudinary.js";
+function uploadCloud(name) {
+  cloudinary.uploader.upload(req.body.image, {
+    upload_preset: 'unsigned_upload',
+    public_id: name, 
+    allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "webp"]
+    }, (err, result) => {
+        if(err)
+          return null; 
+        else
+        {
+            const data = new Product({
+                ...req.body,
+                image: result.secure_url
+            });
+            return data;
+        }
+    })
+}
 
-cloudinary.config({
-  cloud_name: "dmzmrezmk",
-  api_key: "411544666289579",
-  api_secret: "X_VpZSx-98F5ziaibZTnwB4QVZE"
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary,
-  allowedFormats: ['jpg', 'png'],
-  params: {
-    folder: 'image_products'
-  }
-});
-
-const uploadCloud = multer({ storage });
 
 export default uploadCloud;

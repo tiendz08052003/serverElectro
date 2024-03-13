@@ -1,12 +1,12 @@
-const convertListProtoryToObject = (datas) => {
-    return ( datas.map(data => data.toObject()) )
+const convertListPropertyToObject = (data) => {
+    return ( data.map(el => el.toObject()) )
 }
 
-const convertSingleProtoryToObject = (data) => {
+const convertSinglePropertyToObject = (data) => {
     return (
         data ? data.toObject() : data
     )
 }
 
-export default {convertListProtoryToObject, convertSingleProtoryToObject}
+export default {convertListPropertyToObject, convertSinglePropertyToObject}
 

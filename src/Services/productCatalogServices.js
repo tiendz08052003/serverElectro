@@ -1,8 +1,8 @@
 import * as httpRequest from "../utils/httpRequest.js";
 
-export const getMenuCataLog = async () => {
+export const getProductCatalog = async () => {
     try{
-        const res = await httpRequest.get("menuCatalog");
+        const res = await httpRequest.get("productCatalog");
         return res;
     }
     catch(err){

@@ -13,17 +13,21 @@
             <h3>
                 <a href="/">Trang chủ</a>
             </h3>
-            <h1 style="display: flex; justify-content: center;">Tạo ProductCatalog</h1>
-            <form method="post" action="/api/productCatalog/create/store">
+            <h1 style="display: flex; justify-content: center;">Tạo productCatalog</h1>
+            <form method="post" action="/api/productCatalog/update/<%= data._id %>/?_method=PUT">
                 <div class="mb-3">
                     <label for="idCatalog" class="form-label">Chọn catalog</label>
                     <select name="idCatalog" class="form-select" aria-label="Default select example">
                         <option selected>--- select ---</option>
-                        <% listMenu.map((menu, index) => { %>
+                        <% dataMenu.map((menu, index) => { %>
                             <option>----- <%= menu.name %>  -----</option>
-                            <% listCatalog.map((catalog, index) => { %>
+                            <% dataCatalog.map((catalog, index) => { %>
                                 <% if(catalog.idMenu === menu._id) { %>
-                                    <option value=<%= catalog._id %> > <%= catalog.name %> </option>
+                                    <% if (data.idCatalog === catalog._id) {%>
+                                        <option selected value=<%= catalog._id %> > <%= catalog.name %> </option>
+                                    <%} else {%>
+                                        <option value=<%= catalog._id %> > <%= catalog.name %> </option>
+                                    <% } %>
                                 <% } %>
                             <% }) %>
                         <% }) %>
@@ -31,16 +35,17 @@
                     <label for="idProduct" class="form-label">Chọn product</label>
                     <select name="idProduct" class="form-select" aria-label="Default select example">
                         <option selected>--- select ---</option>
-                        <% listProduct.map((product, index) => { %>
-                            <option value=<%= product._id %> > <%= product.name %> </option>
+                        <% dataProduct.map((product, index) => { %>
+                            <% if (data.idProduct === product._id) {%>
+                                <option selected value=<%= product._id %> > <%= product.name %> </option>
+                            <%} else {%>
+                                <option value=<%= product._id %> > <%= product.name %> </option>
+                            <% } %>
                         <% }) %>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm productCatalog</button>
+                <button type="submit" class="btn btn-primary">Sửa productCatalog</button>
             </form>
-            <a href="/api/product/create">
-                <button type="submit" class="btn btn-secondary mt-4">Tạo product khác</button>
-            </a>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -13,20 +13,13 @@
             <h3>
                 <a href="/">Trang chủ</a>
             </h3>
-            <h1 style="display: flex; justify-content: center;">Tạo menu</h1>
-            <form method="post" action="/api/menu/create/store">
+            <h1 style="display: flex; justify-content: center;">Tạo brand</h1>
+            <form method="post" action="/api/menu/update/<%= data._id %>/?_method=PUT">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name">
-                    <label for="idSelection" class="form-label">Chọn selection</label>
-                    <select name="idSelection" class="form-select" aria-label="Default select example">
-                        <option selected>--- select ---</option>
-                        <% data.map((childData, index) => { %>
-                            <option value=<%= childData._id %> > <%= childData.name %> </option>
-                        <% }) %>
-                    </select>
+                    <input value="<%= data.name %>" type="text" class="form-control" id="name" name="name">
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm menu</button>
+                <button type="submit" class="btn btn-primary">Sửa brand</button>
             </form>
         </div>
     </div>

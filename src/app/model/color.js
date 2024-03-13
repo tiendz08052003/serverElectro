@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
+import MongooseDelete from 'mongoose-delete';
 const Schema = mongoose.Schema;
 
 const Data = new Schema({
@@ -10,6 +11,7 @@ const Data = new Schema({
 })
 
 mongoose.plugin(slug);
+Data.plugin(MongooseDelete, {deletedAt:true});
 
 const Color = mongoose.model("Color", Data);
 

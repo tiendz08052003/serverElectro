@@ -12,8 +12,8 @@
                 <h3>
                     <a href="/">Trang chủ</a>
                 </h3>
-                <a href="/api/product/trash" style="margin-right: 50px;">Thùng rác</a>
-                <a href="/api/product/create">Thêm sản phẩm</a>
+                <a href="/api/brand/trash" style="margin-right: 50px;">Thùng rác</a>
+                <a href="/api/brand/create">Thêm dữ liệu</a>
                 <div class="d-flex align-items-center mt-2 ps-2">
                     <select class="form-select select__control" aria-label="Default select example" name="action">
                         <option value="select" selected>-- Select all --</option>
@@ -34,23 +34,23 @@
                                 ID
                             </th>
                             <th scope="col">
-                                Tên sản phầm
+                                Tên brand
                             </th>
                             <th scope="col">Thời gian tạo</th>   
                             <th scope="col">Status</th>   
                         </tr>
                     </thead>
                     <tbody>
-                        <% if(listData.length === 0) { %>
+                        <% if(data.length === 0) { %>
                             <tr class="text-center">
                                 <td colspan="6">
-                                    Không có product nào hoặc đã bị xóa
-                                    <a href="/api/product/create">Hãy vào tạo product</a> hoặc
-                                    <a href="/api/product/trash">Hãy vào thùng rác</a>
+                                    Không có khóa học nào hoặc đã bị xóa
+                                    <a href="/api/brand/create">Hãy vào tạo khóa học</a> hoặc
+                                    <a href="/api/brand/trash">Hãy vào thùng rác</a>
                                 </td>
                             </tr>
                         <% } else { %> 
-                            <% listData.map((data, index) => {  %>
+                            <% data.map((data, index) => {  %>
                                 <tr>
                                     <th>
                                         <div class="form-check">
@@ -61,7 +61,7 @@
                                     <td scope="row"><%= data.name %></td>
                                     <td scope="row"><%= data.createdAt %></td>
                                     <td>
-                                        <a href="/api/product/edit/<%= data._id %>" class="btn btn-link">Sửa</a>
+                                        <a href="/api/brand/edit/<%= data._id %>" class="btn btn-link">Sửa</a>
                                         <a href="" class="btn btn-link btn__deleteSingle" data-bs-toggle="modal" data-bs-target="#delete-course-modal" data-id=<%= data._id %>>Xóa</a>
                                     </td>
                                 </tr>
@@ -102,12 +102,12 @@
         const btnAllProduct = document.querySelector("#checkboxAll");
         const allCheckboxProduct = document.querySelectorAll("#flexCheckChecked");
         const selectControl = document.querySelector(".select__control");
-        const btnDeleteForever = $('.btn__deleteSingle');
+        const btnDeleteSingle = $('.btn__deleteSingle');
         
         let idForm;
 
-        btnDeleteForever.onclick = () => {
-            formDelete.setAttribute("type", "product");
+        btnDeleteSingle.onclick = () => {
+            formDelete.setAttribute("type", "brand");
         }
 
         if (deleteCourseModal) {
@@ -120,7 +120,7 @@
         btnDelete.addEventListener("click", (e) => {
             let array = [];
             let str = formDelete.getAttribute("type");
-            if(str === "product")
+            if(str === "brand")
             {
                 array = [
                     ...array,
@@ -140,7 +140,7 @@
                     }
                 })
             }
-            formDelete.action = "/api/product/list/delete/" + array + "/?_method=DELETE";
+            formDelete.action = "/api/brand/list/delete/" + array + "/?_method=DELETE";
             formDelete.submit();
         })
 
@@ -148,7 +148,7 @@
              
             if(selectControl.value === "delete")
             {
-                formDelete.setAttribute("type", "products");
+                formDelete.setAttribute("type", "brands");
             }
             else
                 alert("Vui lòng chọn phương thức!")

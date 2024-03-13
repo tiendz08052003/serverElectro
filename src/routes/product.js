@@ -4,6 +4,8 @@ import fileUploader from "../middleware/uploader.js"
 
 const route = express.Router();
 
+route.delete('/trash/deleteProducts/:id', productController.deleteProductsForever);
+
 route.delete('/trash/delete/:id', productController.deleteForever);
 
 route.patch('/trash/restore/:id', productController.restore);

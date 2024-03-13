@@ -1,5 +1,4 @@
 import Selection from "../model/selection.js";
-import utils from "../../utils/index.js";
 import * as selectionServices from "../../Services/selectionServices.js"
 
 const selectionController = {

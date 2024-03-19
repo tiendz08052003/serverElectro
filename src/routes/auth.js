@@ -5,13 +5,17 @@ import middlewareAuth from '../middleware/middlewareAuth.js';
 
 const route = express.Router();
 
-route.patch("/accountForget/recover", middlewareAuth.verifyTokenAndEmail ,authController.recoverPassword);
+route.patch("/account/submitChangePassword", middlewareAuth.verifyToken ,authController.changePasswordAccount);
+
+route.get("/account/checkPassword/:id", middlewareAuth.verifyToken, authController.verifyChangePasswordAccount);
+
+route.patch("/accountForget/recover", middlewareAuth.verifyEmail ,authController.recoverPassword);
 
 route.get("/accountForget", authController.sendEmail);
 
 route.post("/create/store", authController.store);
 
-route.delete("/delete/:id", middlewareAuth.verifyTokenAndAdminAuth, authController.delete);
+route.delete("/delete/:id", middlewareAuth.verifyToken , middlewareAuth.verifyAdminAuth, authController.delete);
 
 route.post("/logout", middlewareAuth.verifyToken, authController.logoutAuth);
 

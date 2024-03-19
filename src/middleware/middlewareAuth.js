@@ -19,9 +19,9 @@ const middlewareAuth = {
         }
     },
 
-    verifyTokenAndAdminAuth: (req, res, next) => {
+    verifyAdminAuth: (req, res, next) => {
         middlewareAuth.verifyToken(req, res, () => {
-            if(req.user._id === req.params.id || req.user.admin)
+            if(!req.headers.admin)
             {
                 next();
             }
@@ -32,7 +32,7 @@ const middlewareAuth = {
         })
     },
 
-    verifyTokenAndEmail: (req, res, next) => {
+    verifyEmail: (req, res, next) => {
         bcrypt.compare(req.query.email, req.query.hashEmail, (err, result) => {
             if(err) return res.status(401).json("email error!!!");
             next();

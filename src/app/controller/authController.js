@@ -109,6 +109,7 @@ const authController = {
 
     //[DELETE] /auth/delete/:id
     delete: (req, res, next) => {
+        console.log(req.params.id);
         Auth.findByIdAndDelete({_id: req.params.id})
             .then(() => {
                 res.status(200).json("Success")
@@ -136,7 +137,7 @@ const authController = {
                             const newRefreshToken = authController.signRefreshToken(data);
                             storageServices.postStorage({refreshToken: newRefreshToken})
                                 .then(() => {
-                                    res.cookie("refreshToken", newRefreshToken, {
+                                    res.cookies("refreshToken", newRefreshToken, {
                                         httpOnly: true,
                                         secure: false,
                                         path: "/",
@@ -233,9 +234,49 @@ const authController = {
             })
             .catch(() => {
 
+            })    
+    },
+
+    verifyChangePasswordAccount: (req, res, next) => {
+        Auth.findOne({_id: req.params.id})
+            .then((data) => {
+                console.log(data.password, req.headers.password)
+                bcrypt.compare(req.headers.password, data.password, (err, result) => {
+                    if(err) res.status(404).json("Error");
+                    if(!result) res.status(404).json("No duplicate");
+                    res.status(200).json("Success");
+                })
+            }
+            )
+            .catch(() => {
+                res.status(404).json("Error");
             })
-        
+    },
+
+    //[PATCH] /auth/submitChangePassword?id=...
+    changePasswordAccount: (req, res, next) => {
+        let salt;
+        let hashed;
+        bcrypt.genSalt(10)
+            .then((x) => {
+                salt = x;
+                bcrypt.hash(req.body.password, salt, (err, result) => {
+                    if(err) res.status(404).json("Error");
+                    hashed = result;
+                    Auth.updateOne({_id: req.query.id}, {password: hashed})
+                        .then(() => {
+                            res.status(200).json("Success")
+                        })
+                        .catch((err) => {
+                            res.status(404).json("Error");
+                        })
+                })
+            })
+            .catch(() => {
+                res.status(404).json("Error");
+            })    
     }
+
 }
 
 export default authController;

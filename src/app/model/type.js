@@ -1,20 +1,19 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
-import MongooseDelete from "mongoose-delete";
+import MongooseDelete from 'mongoose-delete';
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const Data = new Schema({
-    name: {type: String, require: true, unique: true},
-    idSelection: {type: String},
+const type = new Schema({
+    name: {type: String, require: true , unique: true},
     slug: {type: String, slug: "name", unique: true},
 }, {
-    timestamps: true,
+    timestamps: true, // Tự động lưu ngày giờ
 })
 
 mongoose.plugin(slug);
-Data.plugin(MongooseDelete, {deletedAt: true});
+type.plugin(MongooseDelete, {deletedAt: true});
 
-const Type = mongoose.model('type', Data);
+const Type = mongoose.model("type", type)
 
-export default Type
+export default Type;

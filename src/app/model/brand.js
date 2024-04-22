@@ -3,7 +3,7 @@ import slug from 'mongoose-slug-generator';
 import MongooseDelete from 'mongoose-delete';
 const Schema = mongoose.Schema;
 
-const Data = new Schema({
+const brand = new Schema({
     name: {type: String, require: true, unique: true},
     slug: {type: String, slug:"name", unique: true}
 }, {
@@ -11,8 +11,8 @@ const Data = new Schema({
 })
 
 mongoose.plugin(slug, {deletedAt : true});
-Data.plugin(MongooseDelete, {deletedAt: true});
+brand.plugin(MongooseDelete, {deletedAt: true});
 
-const Brand = mongoose.model("Brand", Data);
+const Brand = mongoose.model("brand", brand);
 
 export default Brand;

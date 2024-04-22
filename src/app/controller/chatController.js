@@ -1,7 +1,7 @@
 import Chat from "../model/chat.js";
 
 const chatController = {
-    getChat: (req, res, next) => {
+    chat: (req, res, next) => {
         Chat.find()
             .then((data) => {
                 res.json(data)

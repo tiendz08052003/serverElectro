@@ -12,7 +12,7 @@ route.delete("/list/delete/:id", catalogController.delete);
 
 route.post("/create/store", catalogController.store)
 
-route.put("/update/:id", catalogController.update);
+route.patch("/update/:id", catalogController.update);
 
 route.get("/edit/:id", catalogController.edit);
 
@@ -22,6 +22,6 @@ route.get("/list", catalogController.list);
 
 route.get("/create", catalogController.create)
 
-route.get("/", catalogController.getCatalog)
+route.get("/", catalogController.catalog)
 
 export default route;

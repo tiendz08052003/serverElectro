@@ -4,13 +4,13 @@ import fileUploader from "../middleware/uploader.js"
 
 const route = express.Router();
 
-route.delete('/trash/deleteProducts/:id', productController.deleteProductsForever);
+route.delete('/trash/permanentlyDeleted/:id', productController.permanentlyDeleted);
 
 route.delete('/trash/delete/:id', productController.deleteForever);
 
 route.patch('/trash/restore/:id', productController.restore);
 
-route.put('/update/:id', productController.update);
+route.patch('/update/:id', productController.update);
 
 route.get('/edit/:id', productController.edit);
 
@@ -26,6 +26,6 @@ route.get('/list', productController.list);
 
 route.get('/trash', productController.trash);
 
-route.get('/', productController.indexDefault)
+route.get('/', productController.product)
 
 export default route;

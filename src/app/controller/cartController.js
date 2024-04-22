@@ -3,10 +3,10 @@ import utils from "../../utils/index.js";
 
 const cartController = {
     //[GET] /cart
-    list:(req, res, next) => {
+    cart:(req, res, next) => {
         Cart.find()
-            .then(datas => {
-                res.json(datas);
+            .then(data => {
+                res.json(data);
             })
             .catch(next)
     },

@@ -1,17 +1,14 @@
 import mongoose from "mongoose";
 import slug from 'mongoose-slug-generator';
-import AutoIncrementFactory from 'mongoose-sequence';
 import mongoose_delete from 'mongoose-delete'
-const AutoIncrement = AutoIncrementFactory(mongoose);
 
 const Schema = mongoose.Schema
 
 
-const Data = new Schema({
-    idType: {type: String},
-    idSelection: {type: String},
+const product = new Schema({
     idBrand: {type: String},
     idColor: {type: String},
+    idDetailsType: {type: String},
     name: {type: String, require: true, unique: true},
     image: {type: String}, 
     price: {type: Number, require: true},
@@ -24,8 +21,8 @@ const Data = new Schema({
 }) 
 
 mongoose.plugin(slug) // thư viện tự tạo slug
-Data.plugin(mongoose_delete, { deletedAt : true, overrideMethods: 'all' }); // thư viện xóa phần bề mặt còn trong dữ liệu vẫn còn
+product.plugin(mongoose_delete, { overrideMethods: 'all' }); // thư viện xóa phần bề mặt còn trong dữ liệu vẫn còn
 
-const Product = mongoose.model("product", Data) // kết nối mới model
+const Product = mongoose.model("product", product) // kết nối mới model
 
 export default Product

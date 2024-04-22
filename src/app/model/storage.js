@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
-const Data = new Schema({
+const storage = new Schema({
     refreshToken: {type: String, require: true , unique: true},
 }, {
     timestamps: true
 })
 
-const Storage = mongoose.model("storage", Data);
+const Storage = mongoose.model("storage", storage);
 
 export default Storage;

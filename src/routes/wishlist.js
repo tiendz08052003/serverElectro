@@ -8,6 +8,6 @@ route.delete('/delete/:id', middlewareAuth.verifyToken, wishlistController.delet
 
 route.post('/create/store', middlewareAuth.verifyToken, wishlistController.create);
 
-route.get('/', wishlistController.list);
+route.get('/', wishlistController.wishlist);
 
 export default route

@@ -1,58 +1,43 @@
 import Type from "../model/type.js";
-import utils from "../../utils/index.js";
-import * as selectionServices from "../../Services/selectionServices.js"
-import * as typeServices from "../../Services/typeServices.js"
 
 const typeController = {
     //[GET] /type
-    defaultType: (req, res, next) => {
+    type: (req, res, next) => {
         Type.find()
             .then((data) => {
-                res.json(data)
+                res.json(data);
             })
             .catch(next)
     },
 
     //[GET] /type/create
     create: (req, res, next) => {
-        let data;
-        const fetchAPI = async () => {
-            data = await selectionServices.getSelection();
-            res.render("type/create", {data});
-        }
-        fetchAPI();
+        res.render('type/create');
     },
 
     //[POST] /type/create/store
     store: (req, res, next) => {
-        const data = new Type(req.body);
+        const data = new Type(req.body)
         data.save()
             .then(() => {
                 res.redirect('/api/type/create')
             })
-            .catch(next)
+            .catch(next);
     },
 
     
     //[get] /type/list
-    list: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await typeServices.getType();
-            const data = x.filter(y => y.deleted === false) 
-            console.log(data);
-            res.render("type/list", {data})
-        }
-        fetchAPI();
+    list: async (req, res, next) => {
+        const x = await Type.find();
+        const data = x.filter(y => y.deleted === false) 
+        res.render("type/list", {data})
     },
 
     //[get] /type/trash
-    trash: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await typeServices.getType();
-            const data = x.filter(y => y.deleted === true);
-            res.render("type/trash", {data})
-        }
-        fetchAPI();
+    trash: async (req, res, next) => {
+        const x = await Type.find();
+        const data = x.filter(y => y.deleted === true);
+        res.render("type/trash", {data})
     },
 
     //[delete] /type/list/delete/:id
@@ -89,8 +74,8 @@ const typeController = {
             })
             .catch(next)
     },
-    ///[delete] trash/deletetypesForever/:id
-    deleteTypesForever: (req, res, next) => {
+    ///[delete] trash/deleteTypeForever/:id
+    deleteTypeForever: (req, res, next) => {
         let array = (req.params.id).split(",");
         const object = {
             _id: array
@@ -119,7 +104,6 @@ const typeController = {
             })
             .catch(next)
     }
-
 }
 
-export default typeController;
+export default typeController

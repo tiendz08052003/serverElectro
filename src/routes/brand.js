@@ -13,7 +13,7 @@ route.delete("/list/delete/:id", brandController.delete);
 
 route.post("/create/store", brandController.store);
 
-route.put("/update/:id", brandController.update);
+route.patch("/update/:id", brandController.update);
 
 route.get("/edit/:id", brandController.edit);
 
@@ -23,7 +23,7 @@ route.get("/list", brandController.list);
 
 route.get("/create", brandController.create);
 
-route.get("/", brandController.listBrand);
+route.get("/", brandController.brand);
 
 export default route;
 

@@ -1,12 +1,9 @@
 import Catalog from "../model/catalog.js";
 import utils from "../../utils/index.js";
-import * as menuServices from "../../Services/menuServices.js"
-import * as catalogServices from "../../Services/catalogServices.js"
-import * as selectionServices from "../../Services/selectionServices.js"
 
 const catalogController = {
     //[GET] /catalog
-    getCatalog: (req, res, next) => {
+    catalog: (req, res, next) => {
         Catalog.find()
             .then((data) => {
                 res.json(data);
@@ -16,16 +13,7 @@ const catalogController = {
 
     //[GET] /catalog/create
     create: (req, res, next) => {
-        let listMenu, listSelection;
-        const fetchAPI = async () => {
-            const data = await menuServices.getMenu();
-            listMenu = data;
-            data = await selectionServices.getSelection();
-            listSelection = data;
-            res.render("catalog/create", {listMenu, listSelection});
-        }
-
-        fetchAPI();
+        res.render("catalog/create");
     },
 
     //[GET] /catalog/create/store
@@ -40,24 +28,25 @@ const catalogController = {
 
     
     //[get] /catalog/list
-    list: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await catalogServices.getCatalog();
+    list: async (req, res, next) => {
+        try {
+            const x = await Catalog.find();
             const data = x.filter(y => y.deleted === false) 
-            console.log(data);
             res.render("catalog/list", {data})
-        }
-        fetchAPI();
+        } catch (error) {
+            res.status(404).json("Error");
+        }    
     },
 
     //[get] /catalog/trash
-    trash: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await catalogServices.getCatalog();
+    trash: async (req, res, next) => {
+        try {
+            const x = await Catalog.find();
             const data = x.filter(y => y.deleted === true);
-            res.render("catalog/trash", {data})
+            res.render("catalog/trash", {data}) 
+        } catch (error) {
+            res.status(404).json("Error");
         }
-        fetchAPI();
     },
 
     //[delete] /catalog/list/delete/:id

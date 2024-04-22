@@ -43,18 +43,11 @@
                         <label for="discount" class="form-label">Recommend</label>
                         <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault" name="recommend">
                     </div>
-                    <label for="idSelection" class="form-label">Selection</label>
-                    <select name="idSelection" class="form-select form-idSelection" aria-label="Default select example">
+                    <label for="idDetailsType" class="form-label">DetailsType</label>
+                    <select name="idDetailsType" class="form-select form-idDetailsType" aria-label="Default select example">
                         <option value="" selected>--- select ---</option>
-                        <% listSelection.map((type, index) => { %>
-                            <option value=<%= type._id %> > <%= type.name %> </option>
-                        <% }) %>
-                    </select>
-                    <label for="idType" class="form-label">Type</label>
-                    <select name="idType" class="form-select form-idType" aria-label="Default select example">
-                        <option value="" selected>--- select ---</option>
-                        <% listType.map((type, index) => { %>
-                            <option value=<%= type._id %> > <%= type.name %> </option>
+                        <%listDetailsType.map((detailsType, index) => { %>
+                            <option value=<%= detailsType._id %> > <%= detailsType.name %> </option>
                         <% }) %>
                     </select>
                     <div class="introduce">

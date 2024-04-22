@@ -3,10 +3,9 @@ import slug from 'mongoose-slug-generator';
 
 const Schema = mongoose.Schema;
 
-const Data = new Schema({
-    idAuth: { type: String, require: true },
-    idPhong: {type: String},
-    idKhachChat: {type: String},
+const chat = new Schema({
+    idAuth: { type: String, require: true, unique: true },
+    idRoom: {type: String},
     message: {type: Array},
     queue: {type: Boolean, require: true, default: true},
     admin: {type: Boolean},
@@ -14,6 +13,6 @@ const Data = new Schema({
     timestamps: true, // Tự động lưu ngày giờ
 })
 
-const Chat = mongoose.model("Chat", Data)
+const Chat = mongoose.model("chat", chat)
 
 export default Chat

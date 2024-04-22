@@ -1,10 +1,9 @@
 import Color from "../model/color.js";
 import utils from "../../utils/index.js";
-import * as colorServices from "../../Services/colorServices.js"
 
 const colorController = {
     //[get] /color
-    listColor: (req, res, next) => {
+    color: (req, res, next) => {
         Color.find()
             .then(data => {
                 res.json(data);
@@ -29,24 +28,26 @@ const colorController = {
 
     
     //[get] /color/list
-    list: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await colorServices.getColor();
+    list: async (req, res, next) => {
+        try {
+            const x = await Color.find();
             const data = x.filter(y => y.deleted === false) 
             console.log(data);
             res.render("color/list", {data})
+        } catch (error) {
+            res.status(404).json("Error");
         }
-        fetchAPI();
     },
 
     //[get] /color/trash
-    trash: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await colorServices.getColor();
+    trash: async (req, res, next) => {
+        try {
+            const x = await Color.find();
             const data = x.filter(y => y.deleted === true);
             res.render("color/trash", {data})
+        } catch (error) {
+            res.status(404).json("Error");
         }
-        fetchAPI();
     },
 
     //[delete] /color/list/delete/:id

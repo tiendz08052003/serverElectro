@@ -10,6 +10,6 @@ route.delete('/delete/:id', middlewareAuth.verifyToken, cartController.delete);
 
 route.post('/create', middlewareAuth.verifyToken,cartController.create);
 
-route.get('/', cartController.list);
+route.get('/', cartController.cart);
 
 export default route

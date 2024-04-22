@@ -1,10 +1,8 @@
 import Brand from "../model/brand.js";
-import utils from "../../utils/index.js";
-import * as brandServices from "../../Services/brandServices.js"
 
 const brandController = {
     //[get] /brand
-    listBrand: (req, res, next) => {
+    brand: (req, res, next) => {
         Brand.find()
             .then(data => {
                 res.json(data);
@@ -28,24 +26,25 @@ const brandController = {
     },
 
     //[get] /brand/list
-    list: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await brandServices.getBrand();
+    list: async(req, res, next) => {
+        try {
+            const x = await Brand.find();
             const data = x.filter(y => y.deleted === false) 
-            console.log(data);
             res.render("brand/list", {data})
+        } catch (error) {
+            res.status(404).json("Error");
         }
-        fetchAPI();
     },
 
     //[get] /brand/trash
-    trash: (req, res, next) => {
-        const fetchAPI = async () => {
-            const x = await brandServices.getBrand();
+    trash:async (req, res, next) => {
+        try {
+            const x = await Brand.find();
             const data = x.filter(y => y.deleted === true);
             res.render("brand/trash", {data})
+        } catch (error) {            
+            res.status(404).json("Error");
         }
-        fetchAPI();
     },
 
     //[delete] /brand/list/delete/:id

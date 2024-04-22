@@ -18,15 +18,8 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="name">
-                    <label for="idSelection" class="form-label">Selection</label>
-                    <select name="idSelection" class="form-select" aria-label="Default select example">
-                        <option selected>--- select ---</option>
-                        <% data.map((childData, index) => { %>
-                            <option value=<%= childData._id %> > <%= childData.name %> </option>
-                        <% }) %>
-                    </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm loại thiết bị</button>
+                <button type="submit" class="btn btn-primary">Thêm type</button>
             </form>
         </div>
     </div>

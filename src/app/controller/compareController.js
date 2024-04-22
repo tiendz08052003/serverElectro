@@ -3,7 +3,7 @@ import utils from "../../utils/index.js";
 
 const compareController = {
     //[GET] /compare
-    list:(req, res, next) => {
+    compare:(req, res, next) => {
         Compare.find()
             .then(data => {
                 res.json(data);

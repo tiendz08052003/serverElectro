@@ -4,16 +4,16 @@ import mongoose_delete from "mongoose-delete";
 
 const Schema = mongoose.Schema;
 
-const Data = new Schema({
-    idAuth: { type: String },
-    idProduct: { type: String},
+const compare = new Schema({
+    idAccount: { type: String, require: true},
+    idProduct: { type: String, require: true},
 }, {
     timestamps: true, // Tự động lưu ngày giờ
 })
 
 mongoose.plugin(slug);
-Data.plugin(mongoose_delete, { overrideMethods: 'all' });
+compare.plugin(mongoose_delete, { overrideMethods: 'all' });
 
-const Compare = mongoose.model("compare", Data);
+const Compare = mongoose.model("compare", compare);
 
 export default Compare;

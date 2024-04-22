@@ -14,7 +14,7 @@ route.delete("/list/delete/:id", colorController.delete);
 
 route.post("/create/store", colorController.store);
 
-route.put("/update/:id", colorController.update);
+route.patch("/update/:id", colorController.update);
 
 route.get("/edit/:id", colorController.edit);
 
@@ -24,7 +24,7 @@ route.get("/list", colorController.list);
 
 route.get("/create", colorController.create);
 
-route.get("/", colorController.listColor);
+route.get("/", colorController.color);
 
 export default route;
 

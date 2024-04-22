@@ -3,10 +3,10 @@ import utils from "../../utils/index.js";
 
 const wishlistController = {
     //[GET] /wishlist
-    list:(req, res, next) => {
+    wishlist:(req, res, next) => {
         Wishlist.find()
-            .then(datas => {
-                res.json(datas);
+            .then(data => {
+                res.json(data);
             })
             .catch(next)
     },

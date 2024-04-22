@@ -21,17 +21,17 @@
                     <label for="brand" class="form-label">Brand</label>
                     <select name="idBrand" class="form-select" aria-label="Default select example">
                         <% listBrand.map((brand, index) => { %>
-                            <% if (singleData.idBrand === brand._id) { %>
+                            <% if (singleData.idBrand === brand._id.valueOf()) { %>
                                 <option selected value=<%= brand._id %> > <%= brand.name %> </option>
                             <% } else { %>
-                                <option value=<%= brand._id %> > <%= brand.name %> </option>
+                                    <option value=<%= brand._id %> > <%= brand.name %> </option>
                             <% } %>
                         <% }) %>
                     </select>
                     <label for="color" class="form-label">Color</label>
                     <select name="idColor" class="form-select" aria-label="Default select example">
                         <% listColor.map((color, index) => { %>
-                            <% if ( singleData.idColor === color._id) { %>
+                            <% if ( singleData.idColor === color._id.valueOf()) { %>
                                 <option selected value=<%= color._id %> > <%= color.name %> </option>
                             <% } else { %>
                                 <option value=<%= color._id %> > <%= color.name %> </option>
@@ -49,23 +49,13 @@
                         <label for="discount" class="form-label">Recommend</label>
                         <input checked="<%= singleData._id %> ? true : false" class="form-check-input" type="checkbox" value="true" id="flexCheckDefault" name="recommend">
                     </div>
-                    <label for="idSelection" class="form-label">Selection</label>
-                    <select name="idSelection" class="form-select form-idSelection" aria-label="Default select example">
-                        <% listSelection.map((selection, index) => { %>
-                            <% if ( singleData.idSelection === selection._id) { %>
-                                <option selected value=<%= selection._id %> > <%= selection.name %> </option>
-                            <% } else { %>
-                                <option value=<%= selection._id %> > <%= selection.name %> </option>
-                            <% } %>
-                        <% }) %>
-                    </select>
-                    <label for="idType" class="form-label">Type</label>
+                    <label for="idType" class="form-label">Details Type</label>
                     <select name="idType" class="form-select form-idType" aria-label="Default select example">
-                        <% listType.map((type, index) => { %>
-                            <% if ( singleData.idType === type._id) { %>
-                                <option selected value=<%= type._id %> > <%= type.name %> </option>
+                        <% listDetailsType.map((detailsType, index) => { %>
+                            <% if ( singleData.idDetailsType === detailsType._id.valueOf()) { %>
+                                <option selected value=<%= detailsType._id %> > <%= detailsType.name %> </option>
                             <% } else { %>
-                                <option value=<%= type._id %> > <%= type.name %> </option>
+                                <option value=<%= detailsType._id %> > <%= detailsType.name %> </option>
                             <% } %>
                         <% }) %>
                     </select>

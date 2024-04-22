@@ -5,15 +5,16 @@ import mongoose_delete from "mongoose-delete";
 
 const Schema = mongoose.Schema;
 
-const Data = new Schema({
+const wishlist = new Schema({
+    idAccount: { type: String},
     idProduct: { type: String},
 }, {
     timestamps: true, // Tự động lưu ngày giờ
 })
 
 mongoose.plugin(slug);
-Data.plugin(mongoose_delete, { overrideMethods: 'all' });
+wishlist.plugin(mongoose_delete, { overrideMethods: 'all' });
 
-const Wishlist = mongoose.model("wishlist", Data);
+const Wishlist = mongoose.model("wishlist", wishlist);
 
 export default Wishlist;

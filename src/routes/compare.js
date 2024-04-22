@@ -9,6 +9,6 @@ route.delete('/delete/:id', compareController.delete);
 
 route.post('/create/store', compareController.store);
 
-route.get('/', compareController.list);
+route.get('/', compareController.compare);
 
 export default route

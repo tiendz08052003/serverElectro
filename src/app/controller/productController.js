@@ -1,14 +1,13 @@
 import Product from "../model/product.js";
 import utils from "../../utils/index.js";
-import * as typeServices from "../../Services/typeServices.js";
-import * as brandServices from "../../Services/brandServices.js";
-import * as colorSerVices from "../../Services/colorServices.js";
-import * as selectionSerVices from "../../Services/selectionServices.js";
 import uploadCloud from "../../middleware/uploader.js";
+import DetailsType from "../model/detailsType.js";
+import Brand from "../model/brand.js";
+import Color from "../model/color.js";
 
 const productController = {
     //[GET] /product
-    indexDefault: (req, res, next) => {
+    product: (req, res, next) => {
         Product.find()
             .then((data) => {
                     res.json(data);
@@ -19,90 +18,91 @@ const productController = {
     },
 
     //[GET] product/create 
-    create: (req, res, next) => {
-        const fetchAPI = async () => {
-            const listType = await typeServices.getType();
-            const listBrand = await brandServices.getBrand();
-            const listColor = await colorSerVices.getColor();
-            const listSelection = await selectionSerVices.getSelection();
-            res.render("product/create", {listSelection, listType, listBrand, listColor});
+    create: async(req, res, next) => {
+        try {
+            const listDetailsType = await DetailsType.find();
+            const listBrand = await Brand.find();
+            const listColor = await Color.find();
+            res.render("product/create", {listDetailsType, listBrand, listColor});
+        } catch (error) {
+            res.status(404).json("Error");
         }
-        fetchAPI();
     },
 
     //[POST] /product/create/store 
-    store: (req, res, next) => {
-        const data = uploadCloud(req.body.image);
-        data.save()
-            .then(() => {
-                res.redirect("/api/productCatalog/create")
-            })
-            .catch(next);
+    store: async (req, res, next) => {
+        try {
+            const image = await uploadCloud(req.body.image, req.body.name);
+            if(image)
+            {
+                const product = new Product({
+                    ...req.body,
+                    image: image
+                }); 
+                await product.save()
+                res.redirect("/api/product/list")
+            }
+            else
+                return res.status(404).json("Error");
+        } catch (error) {
+            return res.status(404).json("Error");
+        }
     },
 
     //[GET] /product/search?q=?&type=less
-    search: (req, res, next) => {
-        Product.find()
-            .then((datas) => {
-                const a = utils.convertListPropertyToObject(datas)
-                const listData = a.filter(data => {
-                    if(data.name.includes(req.query.q) || data.name.includes((req.query.q).toUpperCase()) || data.name.includes((req.query.q).toLowerCase()))
-                    {
-                        return data;
-                    }
-                });
-                res.json(listData)
-            })
-            .catch(next)
+    search: async (req, res, next) => {
+        try {
+            const data = await Product.find()
+            const listData = data.filter(childData => {
+                if(childData.name.includes(req.query.q) || childData.name.includes((req.query.q).toUpperCase()) || childData.name.includes((req.query.q).toLowerCase()))
+                {
+                    return childData;
+                }
+            });
+            res.json(listData)
+        } catch (error) {
+            return res.status(404).json("Error");
+        }
     },
 
     //[GET] /product/list
-    list: (req, res, next) => {
-        Product.find()
-            .then((data) => {
-                const listData = utils.convertListPropertyToObject(data)
-                res.render("product/list", {listData})
-            })
-            .catch(next)
+    list: async (req, res, next) => {
+        try {
+            const listData = await Product.find()
+            res.render("product/list", {listData})
+        } catch (error) {
+            return res.status(404).json("Error");
+        }
     },
 
     //[GET] / product/trash
-    trash: (req, res, next) => {
-        Product.findDeleted()
-            .then((data) => {
-                const a = utils.convertListPropertyToObject(data)
-                const listData = a.filter((b) => {
-                    if(b.deleted === true)
-                    {
-                        return b;
-                    }})
-                res.render("product/trash", {listData})
-            })
-            .catch(next)
+    trash: async (req, res, next) => {
+        try {
+            const data = await Product.findDeleted();
+            const listData = data.filter(x => x.deleted)
+            res.render("product/trash", {listData})
+        } catch (error) {
+            return res.status(404).json("Error");
+        }
     },
 
     //[GET] /product/edit/:id
-    edit: (req, res, next) => {
-        
-        Product.findById({_id: req.params.id})
-            .then((data) => {
-                const fetchAPI = async () => {
-                    const listType = await typeServices.getType();
-                    const listBrand = await brandServices.getBrand();
-                    const listColor = await colorSerVices.getColor();
-                    const listSelection = await selectionSerVices.getSelection();
-                    const singleData = utils.convertSinglePropertyToObject(data)
-                    res.render("product/update", {
-                        singleData,
-                        listType,
-                        listBrand,
-                        listColor,
-                        listSelection
-                    })
-                }
-                fetchAPI();
+    edit: async (req, res, next) => {
+        try {
+            const data = await Product.findById({_id: req.params.id})
+            const listDetailsType = await DetailsType.find();
+            const listBrand = await Brand.find();
+            const listColor = await Color.find();
+            const singleData = utils.convertSinglePropertyToObject(data)
+            res.render("product/update", {
+                singleData,
+                listDetailsType,
+                listBrand,
+                listColor
             })
-            .catch(next)
+        } catch (error) {
+            return res.status(404).json("Error");
+        }
     },
 
     //[PUT] /product/update/:id
@@ -150,7 +150,7 @@ const productController = {
     },
 
     //[DELETE] /product/trash/deleteProducts/:id
-    deleteProductsForever: (req, res, next) => {
+    permanentlyDeleted: (req, res, next) => {
         let array = (req.params.id).split(",");
         const object = {
             _id: array

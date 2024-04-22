@@ -7,6 +7,6 @@ route.post("/create/store", storageController.store);
 
 route.delete("/delete/:id", storageController.delete);
 
-route.get("/", storageController.getStorage);
+route.get("/", storageController.storage);
 
 export default route;

@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
 import mongoose_delete from "mongoose-delete";
-import AutoIncrementFactory from 'mongoose-sequence';
 
 
 const Schema = mongoose.Schema;
 
-const Data = new Schema({
-    idAuth: { type: String },
+const cart = new Schema({
+    idAccount: { type: String },
     idProduct: { type: String },
     count: {type: Number, require: true}
 }, {
@@ -15,8 +14,8 @@ const Data = new Schema({
 })
 
 mongoose.plugin(slug);
-Data.plugin(mongoose_delete, { overrideMethods: 'all' });
+cart.plugin(mongoose_delete, { overrideMethods: 'all' });
 
-const Cart = mongoose.model("cart", Data);
+const Cart = mongoose.model("cart", cart);
 
 export default Cart;

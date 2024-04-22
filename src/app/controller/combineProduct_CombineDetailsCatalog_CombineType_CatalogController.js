@@ -1,4 +1,4 @@
-import CombineProduct_CombineDetailsCatalog_CombineType_Catalog from "../model/CombineProduct_CombineDetailsCatalog_CombineType_Catalog.js";
+import CombineProduct_CombineDetailsCatalog_CombineType_Catalog from "../model/combineProduct_CombineDetailsCatalog_CombineType_Catalog.js";
 import CombineDetailsCatalog_CombineType_Catalog from "../model/combineDetailsCatalog_CombineType_Catalog.js";
 import CombineType_Catalog from "../model/combineType_Catalog.js";
 import DetailsCatalog from "../model/detailsCatalog.js";

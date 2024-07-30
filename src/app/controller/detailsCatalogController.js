@@ -1,4 +1,4 @@
-import DetailsCatalog from "../model/detailsCatalog.js";
+import DetailsCatalog from "../model/detailsCatalog.model.js";
 import utils from "../../utils/index.js";
 
 const detailsCatalogController = {

@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: Hello to TECHNOLOGY PRODUCTS SELLING PROJECT 
+  version: 0.1.9
+servers:
+  - url: http://localhost:3001/api
+"tags": [
+    {
+      "name": "Product",
+      "description": "Everything about your products",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    }
+]
+paths:
+  /product:
+    get: 
+      tags:
+        - Product
+      summary: get product
+      description: get product from database mongodb 
+      operationId: getProduct
+      responses:
+        '200':
+          description: Get product success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'   
+  /product/search:
+    get:
+      tags:
+        - Product  
+      summary: get search product 
+      description: Get products from the database when there is data from client
+      operationId: getProduct
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string 
+          description: The string to return
+      responses:
+        '200':
+          description: Get product success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'   
+  
+    
+components:
+  schemas:
+    product: 
+      type: object
+      properties: 
+        idProduct: 
+          type: string
+          example: 660ef7a93667e2c0579aac8f
+        idBrand: 
+          type: integer
+          format: int32
+          example: 1
+        idColor: 
+          type: integer
+          format: int32
+          example: 1
+        idDetailsType: 
+          type: integer
+          format: int32
+          example: 1
+        name: 
+          type: string
+          example: Nguyễn Đình Tiến
+        image: 
+          type: string 
+          example: https://res.cloudinary.com/dmzmrezmk/image/upload/v1712256938/image_products/Tablet%20Red%20EliteBook%20Revolve%20810%20G2.webp
+        price: 
+          type: integer
+          format: int32
+          example: 20000
+        discount: 
+          type: integer
+          format: int32
+          example: 10000
+        recommend: 
+          type: boolean
+          example: false
+        introduce: 
+          type: array
+          items:
+            oneOf:
+              - example: Intel Iris Graphics 6100 (13-inch model)
+
+
+
+
+  

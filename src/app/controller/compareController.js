@@ -1,4 +1,4 @@
-import Compare from "../model/compare.js";
+import Compare from "../model/compare.model.js";
 import utils from "../../utils/index.js";
 
 const compareController = {

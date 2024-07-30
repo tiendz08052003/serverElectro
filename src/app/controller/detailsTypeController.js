@@ -1,6 +1,6 @@
-import DetailsType from "../model/detailsType.js";
+import DetailsType from "../model/detailsType.model.js";
 import utils from "../../utils/index.js";
-import Type from "../model/type.js";
+import Type from "../model/type.model.js";
 
 const detailsTypeController = {
     //[GET] /type

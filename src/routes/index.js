@@ -17,6 +17,7 @@ import chat from "./chat.js"
 import combineType_Catalog from "./combineType_Catalog.js"
 
 function routes(app) {
+
     app.use('/api/chat', chat);
 
     app.use('/api/storage', storage);

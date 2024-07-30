@@ -1,4 +1,4 @@
-import Storage from "../model/storage.js";
+import Storage from "../model/storage.model.js";
 
 const storageController = {
     //[GET] /storage/get

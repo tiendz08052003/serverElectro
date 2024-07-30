@@ -1,4 +1,4 @@
-import Type from "../model/type.js";
+import Type from "../model/type.model.js";
 
 const typeController = {
     //[GET] /type

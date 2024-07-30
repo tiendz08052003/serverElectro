@@ -1,4 +1,4 @@
-import Chat from "../model/chat.js";
+import Chat from "../model/chat.model.js";
 
 const chatController = {
     chat: (req, res, next) => {

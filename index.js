@@ -5,12 +5,16 @@ import db from "./src/config/db/index.js";
 import methodOverride from 'method-override'
 import path from 'path';
 import { fileURLToPath } from 'url';
-import cors from 'cors';
 import dotenv from "dotenv";
+import cors from 'cors';
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from 'http';
 import chat from "./src/chat/chat.js";
+import compression from "compression";
+import helmet from "helmet";
+import {initRedis} from "./src/databases/init.redis.js";
+import errorHandler from "./src/middleware/errorHandler.js";
 const app = express();
 
 // env
@@ -28,6 +32,11 @@ const io = new Server(server, {
     }
 });
 
+//user middleware
+app.use(helmet())
+
+// user compression để giảm tải băng thông
+app.use(compression());
 
 // cookieParser
 // Phân tích nội dung có yêu cầu POST và PUT
@@ -35,6 +44,9 @@ app.use(cookieParser());
 
 //connect moongoseDB
 db.connect();
+
+//connect Redis
+initRedis();
 
 // Đường dẫn tương đối
 const __filename = fileURLToPath(import.meta.url);
@@ -45,6 +57,27 @@ const port = process.env.PORT || 3001;
 
 app.use(methodOverride('_method'));
 
+// Add headers before the routes are defined
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+// Cors khi p
 const corsOptions = {
     origin: process.env.REACT_URL,
     credentials: true, //access-control-allow-credentials:true
@@ -74,6 +107,8 @@ app.set('views', path.join('src', 'resources', 'views'));
 
 // kết nối với các đường dẫn
 route(app);
+
+errorHandler(app);
 
 // socket.io
 chat(io);

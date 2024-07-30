@@ -1,7 +1,7 @@
-import CombineType_Catalog from "../model/combineType_Catalog.js";
+import CombineType_Catalog from "../model/combineType_Catalog.model.js";
 import utils from "../../utils/index.js";
-import Type from "../model/type.js";
-import Catalog from "../model/catalog.js";
+import Type from "../model/type.model.js";
+import Catalog from "../model/catalog.model.js";
 
 const combineType_CatalogController = {
     //[GET] api/combineType_Catalog

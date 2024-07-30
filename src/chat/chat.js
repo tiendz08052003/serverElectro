@@ -1,4 +1,4 @@
-import Chat from "../app/model/chat.js"
+import Chat from "../app/model/chat.model.js"
 
 const chat = (io) => {
     // ds user đã chat
@@ -8,8 +8,12 @@ const chat = (io) => {
         console.log("Có nguồn kết nối: " + socket.id);
         
         socket.on("client-to-sever", async (obj) => {
+
+            console.log(arrayChat);
+            console.log(arrayQueue);
+
             arrayChat = obj.res?.map(x => {
-                return x.idAuth
+                return x.idAccount
             });
             // Check user in queue
             const x = obj.res.filter(x => {
@@ -18,24 +22,26 @@ const chat = (io) => {
             });
             // Save queue
             arrayQueue = x.map(x => {
-                return x.idAuth
+                return x.idAccount
             });
             
             if(!arrayChat.includes(obj.User._id)) {
                 socket._id = obj.User._id
                 socket.join(obj.User._id)
                 socket.idRoom = obj.User._id
-                if(!obj.User.admin)
+                console.log(obj.User.role);
+                if(obj.User.role !== "admin")
                 {
+                    console.log(obj.User._id);
                     arrayQueue.push(obj.User._id)
                 }
                 try {
                     const data = new Chat({
-                        idAuth: obj.User._id,
+                        idAccount: obj.User._id,
                         idRoom: obj.User._id,
                         message: [],
-                        queue: !obj.User.admin,
-                        admin: obj.User.admin
+                        queue: obj.User.role !== "admin" ? true : false,
+                        admin: obj.User.role === "admin" ? true : false
                     })
                     await data.save();
                 } catch (error) {
@@ -44,9 +50,9 @@ const chat = (io) => {
                 io.sockets.emit("server-send-client-connectSuccess", socket.id);
             }
             else {
-                const user = obj.res.find(x => x.idAuth === obj.User._id);
+                const user = obj.res.find(x => x.idAccount === obj.User._id);
                 const users = obj.res.filter(x => x.idRoom === user.idRoom);
-                socket._id = user.idAuth
+                socket._id = user.idAccount
                 socket.join(user.idRoom)
                 socket.idRoom = user.idRoom
                 io.sockets.emit("server-send-client-connected", socket.id);
@@ -60,6 +66,7 @@ const chat = (io) => {
     
     
         socket.on("client-to-server-joinRoom", (arr) => {
+            console.log(arr)
             socket.join(arr[0])
             socket.idRoom = arr[0]
             arrayQueue.splice(arrayQueue.indexOf(socket.idRoom), 1)
@@ -72,7 +79,7 @@ const chat = (io) => {
             const res = await Chat.find();
             const users = res.filter(x => x.idRoom == socket.idRoom)
             users.forEach(async x => {
-                arr.User.admin ? (
+                arr.User.role === "admin" ? (
                     await Chat.findByIdAndUpdate({_id: x._id}, {
                         message: [
                             ...x.message,
@@ -115,7 +122,7 @@ const chat = (io) => {
             const res = await Chat.find();
             const users = res.filter(x => x.idRoom == socket.idRoom)
             users.forEach(async x => {
-                if(x.idAuth === socket._id)
+                if(x.idAccount === socket._id)
                 {
                     try {
                         await Chat.findByIdAndDelete({_id: x._id})

@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import sendMailServices from "../../Services/mailerServices.js";
-import Account from "../model/account.js";
-import Storage from "../model/storage.js";
+import Account from "../model/account.model.js";
+import Storage from "../model/storage.model.js";
 
 const accountController = {
     // [Get] /account
@@ -17,7 +17,8 @@ const accountController = {
     signAccessToken: (data) => (
         jwt.sign({
             _id: data._id,
-            admin: data.admin
+            admin: data.admin, 
+            role: data.role
         },
             process.env.JWT_ACCESS_KEY,
             { expiresIn: "10m" }
@@ -27,7 +28,8 @@ const accountController = {
     signRefreshToken: (data) =>(
         jwt.sign({
             _id: data._id,
-            admin: data.admin
+            admin: data.admin, 
+            role: data.role
         },
             process.env.JWT_REFRESH_KEY,
             { expiresIn: "360d" }
@@ -37,10 +39,33 @@ const accountController = {
     // [Post] /account/login
     loginAccount: async (req, res, next) => {
         try {
+            let errors = [];
+            let {email, password} = req.body;
+            // Trim email and password directly
+            email = email.trim();
+            password = password.trim();
+            if(!email) errors.push({email: "email is invalid"});
+            if(!password) errors.push({email: "password is invalid"});
+            if(errors.length != 0) {
+                const err = new validate(errors);
+                err.status = 422;
+                next(err);
+                return;
+            }
             const data = await Account.findOne({email: req.body.email})
             bcrypt.compare(req.body.password, data.password, async (err, result) => {
-                if(err) return res.status(401).json("password error!!!");
-                if(!result) return res.status(403).json("password duplicate!!!");
+                if(err){
+                    const error = new Error('Password error')
+                    error.status = 401;
+                    next(error);
+                    return;
+                }
+                if(!result) {
+                    const error = new Error('Passwords are not duplicates')
+                    error.status = 403;
+                    next(error);
+                    return;
+                } 
                 const accessToken = accountController.signAccessToken(data);
                 const refreshToken = accountController.signRefreshToken(data);
                 const storage = new Storage({refreshToken: refreshToken});
@@ -55,7 +80,9 @@ const accountController = {
                 res.status(200).json({...others, accessToken});
             })
         } catch (error) {
-            res.status(404).json("Error");
+            const err = new Error('Not Found');
+            err.status = 404;
+            next(err);
         }
     },
 
@@ -73,11 +100,12 @@ const accountController = {
                         name: req.body.name,
                         email: req.body.email,
                         password: hashed,
+                        role: req.body.role
                     });
                     try {
-                        const data = await account.save()
+                        const data = await account.save();
                         sendMailServices(data.email, "Cảm ơn bạn đã thêm tài khoản ELECTRO 👻", "<b>Thank you for registering an account Electro</b>")
-                        res.status(200).json("Success")
+                        res.status(200).json("Success");
                     } catch (error) {
                         res.status(401).json("Error");
                     }
@@ -92,7 +120,7 @@ const accountController = {
 
     //[DELETE] /account/delete/:id
     delete: (req, res, next) => {
-        Account.findByIdAndDelete({_id: req.params.id})
+        Account.findByIdAndDelete({_id: req.user._id})
             .then(() => {
                 res.status(200).json("Success")
             })
@@ -106,19 +134,32 @@ const accountController = {
         const refreshToken = req.cookies.refreshToken;
         const result = await Storage.find();
         const listRefreshToken = result.map(x => x.refreshToken);
-        if(!refreshToken) 
-            return res.status(401).json("Error not refreshToken!!!");
-        else if(!listRefreshToken.includes(refreshToken))
-            return res.status(403).json("Error refreshToken not includes!!!");
+        if(!refreshToken) {
+            const err = new Error("Error not refreshToken!");
+            err.status = 401;
+            next(err);
+            return ;
+        }
+        else if(!listRefreshToken.includes(refreshToken)){
+            const err = new Error("Error refreshToken not includes!");
+            err.status = 403;
+            next(err);
+            return;
+        }
         jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, async (err, data) => {
-            if(err) return res.status(401).json("Error refreshToken duplicate!!!");
+            if(err) {
+                const error = new Error("Error refreshToken duplicate!");
+                error.status = 401;
+                next(error);
+                return;
+            } 
             try {
                 await Storage.deleteOne({refreshToken})
                 const newAccessToken = accountController.signAccessToken(data);
                 const newRefreshToken = accountController.signRefreshToken(data);
-                const data = new Storage({refreshToken: newRefreshToken});
-                await data.save();
-                res.cookies("refreshToken", newRefreshToken, {
+                const storage = new Storage({refreshToken: newRefreshToken});
+                await storage.save();
+                res.cookie("refreshToken", newRefreshToken, {
                     httpOnly: true,
                     secure: false,
                     path: "/",
@@ -126,7 +167,9 @@ const accountController = {
                 });
                 res.status(200).json({accessToken: newAccessToken});
             } catch (error) {
-                res.status(404).json("Error");
+                const err = new Error("Error not found!");
+                err.status = 404;
+                next(err);
             }
         }
         ) 
@@ -139,7 +182,9 @@ const accountController = {
             res.clearCookie("refreshToken");
             res.status(200).json("Success");
         } catch (error) {
-            res.status(404).json("Error");
+            const err = new Error("Error");
+            err.status = 404;
+            next(err);
         }
     },
     
@@ -200,7 +245,6 @@ const accountController = {
     verifyChangePasswordAccount: (req, res, next) => {
         Account.findOne({_id: req.params.id})
             .then((data) => {
-                console.log(data.password, req.headers.password)
                 bcrypt.compare(req.headers.password, data.password, (err, result) => {
                     if(err) res.status(404).json("Error");
                     if(!result) res.status(404).json("No duplicate");

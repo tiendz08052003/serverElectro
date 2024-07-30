@@ -1,0 +1,54 @@
+@urlDev=http://localhost:3001
+
+
+### set product
+POST {{urlDev}}/api/cart/createCartRedis
+Content-Type: application/json
+
+{
+    "key": "u:1000",
+    "payload": {
+        "idProduct": 1000,
+        "quantity":  1
+    }
+}
+
+### get product
+GET {{urlDev}}/api/cart/cartRedis
+Content-Type: application/json
+
+{
+    "key": "u:1000"
+}
+
+
+### get product
+POST {{urlDev}}/api/cart/cartRedis
+Content-Type: application/json
+
+{
+    "key": "515cb53f241166cd80d240e1b04f0910c9bc8e0ed34d85848db14db15a05e233"
+}
+
+
+### post login
+POST {{urlDev}}/api/account/login
+Content-Type: application/json
+
+{
+    "email": "123@gmail.com",
+    "password": "123"
+}
+
+### post refresh token
+POST {{urlDev}}/api/account/refresh
+Content-Type: application/json
+
+
+### post logout
+POST {{urlDev}}/api/account/logout
+Content-Type: application/json
+token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5OTJkOWE0YjkyZGZhMWM0ZjhlYTkiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzE5NTk1Nzg1LCJleHAiOjE3MTk1OTYzODV9.MmXJkcNFHMjt03qLzy3ZvTqR_CaS8-Wl-a2iXvWNF9s
+
+
+

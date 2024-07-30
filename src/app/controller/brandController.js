@@ -1,4 +1,4 @@
-import Brand from "../model/brand.js";
+import Brand from "../model/brand.model.js";
 
 const brandController = {
     //[get] /brand

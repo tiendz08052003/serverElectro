@@ -1,22 +1,22 @@
-import Wishlist from "../model/wishlist.js";
+import Wishlist from "../model/wishlist.model.js";
 import utils from "../../utils/index.js";
 
 const wishlistController = {
     //[GET] /wishlist
     wishlist:(req, res, next) => {
         Wishlist.find()
-            .then(data => {
-                res.json(data);
+            .then(result => {
+                res.json(result);
             })
             .catch(next)
     },
     
     //[POST] /wishlist/create/store
     create: (req, res, next) => {
-        const data = new Wishlist(req.body);
-        data.save()
-            .then((data) => {
-                res.json(data);
+        const result = new Wishlist(req.body);
+        result.save()
+            .then((result) => {
+                res.json(result);
             })
             .catch(next)
     },

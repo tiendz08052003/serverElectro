@@ -1,8 +1,12 @@
 import express from 'express'
 import productController from '../app/controller/productController.js';
-import fileUploader from "../middleware/uploader.js" 
+import elasticsearchController from '../app/controller/elasticsearch.controller.js';
 
 const route = express.Router();
+
+route.get('/elasticsearch/searchElasticsearch', elasticsearchController.search);
+
+route.post('/elasticsearch/synchronized', elasticsearchController.synchronizedData);
 
 route.delete('/trash/permanentlyDeleted/:id', productController.permanentlyDeleted);
 

@@ -1,9 +1,9 @@
-import Product from "../model/product.js";
+import Product from "../model/product.model.js";
 import utils from "../../utils/index.js";
-import uploadCloud from "../../middleware/uploader.js";
-import DetailsType from "../model/detailsType.js";
-import Brand from "../model/brand.js";
-import Color from "../model/color.js";
+import uploadCloud from "../../cloudinary/uploader.js";
+import DetailsType from "../model/detailsType.model.js";
+import Brand from "../model/brand.model.js";
+import Color from "../model/color.model.js";
 
 const productController = {
     //[GET] /product
@@ -49,7 +49,7 @@ const productController = {
         }
     },
 
-    //[GET] /product/search?q=?&type=less
+    //[GET] /product/search?q=?
     search: async (req, res, next) => {
         try {
             const data = await Product.find()

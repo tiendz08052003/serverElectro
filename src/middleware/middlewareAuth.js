@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const middlewareAuth = {
     verifyToken: (req, res, next) => {
@@ -8,28 +10,38 @@ const middlewareAuth = {
         {
             const accessToken = token.split(" ")[1];
             jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
-                if(err) return res.status(401).json("Error token!!!");
+                if(err) {
+                    const err = new Error("Error token!!!");
+                    err.status(401);
+                    next(err);
+                    return;
+                } 
                 req.user = user;
                 next();
             })
         }
         else
         {
-            return res.status(401).json("Error not token!!!")
+            return res.status(401).json("Error not token!")
         }
     },
 
-    verifyAdminAuth: (req, res, next) => {
-        middlewareAuth.verifyToken(req, res, () => {
-            if(!req.headers.admin)
-            {
+    verifyAdminAuth: (permission) => {
+        return (req, res, next) => {
+            if(permission.includes(req.user.role))
                 next();
-            }
             else
-            {
-                res.status(401).json("Error not delete!!!")
-            }
-        })
+                res.status(401).json("I don't role!")
+        }
+    },
+
+    verifyUserAuth: (permission) => {
+        return (req, res, next) => {
+            if(permission.includes(req.user.role))
+                next();
+            else
+                res.status(401).json("I don't role!")
+        }
     },
 
     verifyEmail: (req, res, next) => {

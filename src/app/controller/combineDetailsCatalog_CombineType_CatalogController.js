@@ -1,8 +1,8 @@
-import Catalog from "../model/catalog.js";
-import CombineDetailsCatalog_CombineType_Catalog from "../model/combineDetailsCatalog_CombineType_Catalog.js";
-import CombineType_Catalog from "../model/combineType_Catalog.js";
-import DetailsCatalog from "../model/detailsCatalog.js";
-import Type from "../model/type.js";
+import Catalog from "../model/catalog.model.js";
+import CombineDetailsCatalog_CombineType_Catalog from "../model/combineDetailsCatalog_CombineType_Catalog.model.js";
+import CombineType_Catalog from "../model/combineType_Catalog.model.js";
+import DetailsCatalog from "../model/detailsCatalog.model.js";
+import Type from "../model/type.model.js";
 
 
 const combineDetailsCatalog_CombineType_CatalogController = {

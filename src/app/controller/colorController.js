@@ -1,4 +1,4 @@
-import Color from "../model/color.js";
+import Color from "../model/color.model.js";
 import utils from "../../utils/index.js";
 
 const colorController = {

@@ -1,4 +1,4 @@
-import Catalog from "../model/catalog.js";
+import Catalog from "../model/catalog.model.js";
 import utils from "../../utils/index.js";
 
 const catalogController = {

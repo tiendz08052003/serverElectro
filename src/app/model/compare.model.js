@@ -6,7 +6,8 @@ mongoose.set('strictQuery', false);
 const Schema = mongoose.Schema;
 
 const compare = new Schema({
-    idAccount: { type: String, require: true},
+    idAccount: { type: String},
+    idHardware: { type: String},
     idProduct: { type: String, require: true},
 }, {
     timestamps: true, // Tự động lưu ngày giờ

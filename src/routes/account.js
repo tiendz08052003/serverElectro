@@ -15,7 +15,7 @@ route.get("/accountForget", authController.sendEmail);
 
 route.post("/create/store", authController.store);
 
-route.delete("/delete", middlewareAuth.verifyToken, middlewareAuth.verifyAdminAuth(["admin"]), authController.delete);
+route.delete("/delete", middlewareAuth.verifyToken, middlewareAuth.verifyAdminAuth(["member"]), authController.delete);
 
 route.post("/logout", middlewareAuth.verifyToken, authController.logoutAccount);
 

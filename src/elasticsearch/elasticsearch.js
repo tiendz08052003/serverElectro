@@ -14,12 +14,8 @@ function elasticsearch () {
       },
       tls: {
         rejectUnauthorized: false // Bỏ qua chứng chỉ không hợp lệ
-      },
-      sniffOnStart: true,
-      sniffInterval: 60000
+      }
   })
-  
-  
 
   client.info()   
     .then(response => console.log('Elasticsearch client: success'))

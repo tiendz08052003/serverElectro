@@ -104,7 +104,8 @@ const accountController = {
                     });
                     try {
                         const data = await account.save();
-                        sendMailServices(data.email, "Cảm ơn bạn đã thêm tài khoản ELECTRO 👻", "<b>Thank you for registering an account Electro</b>")
+                        await sendMailServices(data.email, "Cảm ơn bạn đã thêm tài khoản ELECTRO 👻", "<b>Thank you for registering an account Electro</b>")
+                        console.log(a)
                         res.status(200).json("Success");
                     } catch (error) {
                         res.status(401).json("Error");
@@ -203,6 +204,7 @@ const accountController = {
                         await sendMailServices(req.query.email, "Thay đổi mật khẩu tài khoản ELECTRO 👻",
                             `<a href="${process.env.REACT_URL}/account/accountForget?type=recoverPassword&email=${req.query.email}&hashEmail=${hashed}" >Bấm vào để lấy lại mật khẩu nhé ❤️</a>`    
                         )
+                        res.status(200).json("Success");
                     } catch (error) {
                         res.status(404).json("Error");
                     }
@@ -226,7 +228,7 @@ const accountController = {
             .then((x) => {
                 salt = x;
                 bcrypt.hash(req.body.password, salt, (err, result) => {
-                    if(err) res.status(404).json("Error");
+                    if(err) return res.status(404).json("Error");
                     hashed = result;
                     Account.updateOne({email: req.query.email}, {password: hashed})
                         .then(() => {
@@ -238,7 +240,7 @@ const accountController = {
                 })
             })
             .catch(() => {
-
+                res.status(400).json("Error");
             })    
     },
 
@@ -246,12 +248,11 @@ const accountController = {
         Account.findOne({_id: req.params.id})
             .then((data) => {
                 bcrypt.compare(req.headers.password, data.password, (err, result) => {
-                    if(err) res.status(404).json("Error");
-                    if(!result) res.status(404).json("No duplicate");
+                    if(err) return res.status(404).json("Error");
+                    if(!result) return res.status(404).json("No duplicate");
                     res.status(200).json("Success");
                 })
-            }
-            )
+            })
             .catch(() => {
                 res.status(404).json("Error");
             })

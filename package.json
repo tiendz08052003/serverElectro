@@ -45,5 +45,8 @@
   "devDependencies": {
     "compression": "^1.7.4",
     "morgan": "^1.10.0"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }

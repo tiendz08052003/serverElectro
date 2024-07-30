@@ -80,6 +80,7 @@ app.use(function (req, res, next) {
 // Cors khi p
 const corsOptions = {
     origin: process.env.REACT_URL,
+    methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 };

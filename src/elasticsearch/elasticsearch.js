@@ -14,7 +14,9 @@ function elasticsearch () {
       },
       tls: {
         rejectUnauthorized: false // Bỏ qua chứng chỉ không hợp lệ
-      }
+      },
+      sniffOnStart: true,
+      sniffInterval: 60000
   })
   
   

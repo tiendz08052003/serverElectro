@@ -2,6 +2,10 @@
 
 import redis from 'redis';
 import { RedisErrorResponse } from '../core/error.response.js';
+import dotenv from 'dotenv';
+
+// Nạp các biến môi trường từ tệp .env
+dotenv.config();
 
 const REDIS_CONNECT_TIMEOUT = 10000, REDIS_CONNECT_MESSAGE = {
     code: -99,

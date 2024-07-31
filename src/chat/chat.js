@@ -8,8 +8,6 @@ const chat = (io) => {
         console.log("Có nguồn kết nối: " + socket.id);
         
         socket.on("client-to-sever", async (obj) => {
-            console.log(arrayChat);
-            console.log(arrayQueue);
             arrayChat = obj.res?.map(x => {
                 return x.idAccount
             });

@@ -21,7 +21,7 @@ const accountController = {
             role: data.role
         },
             process.env.JWT_ACCESS_KEY,
-            { expiresIn: "10m" }
+            { expiresIn: "1h" }
         )
     ),
 

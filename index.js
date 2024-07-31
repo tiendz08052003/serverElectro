@@ -27,7 +27,6 @@ const io = new Server(server, {
         origin: process.env.REACT_URL,
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
-        allowedHeaders: ["my-custom-header"],
         credentials: true
     }
 });
@@ -73,18 +72,9 @@ app.use(compression());
 // Phân tích nội dung có yêu cầu POST và PUT
 app.use(cookieParser());
 
-//connect moongoseDB
-db.connect();
-
-//connect Redis
-initRedis();
-
 // Đường dẫn tương đối
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// tạo port cho sever
-const port = process.env.PORT || 3001;
 
 app.use(methodOverride('_method'));
 
@@ -106,6 +96,12 @@ app.set('view engine', 'ejs');
 // nếu chỉ có file views/index.js thì không cần câu lệnh dưới đây
 app.set('views', path.join('src', 'resources', 'views'));
 
+//connect moongoseDB
+db.connect();
+
+//connect Redis
+initRedis();
+
 // kết nối với các đường dẫn
 route(app);
 
@@ -114,6 +110,8 @@ errorHandler(app);
 // socket.io
 chat(io);
 
+// tạo port cho sever
+const port = process.env.PORT || 3001;
 
 // lắng  nghe port và kết nối
 server.listen(port, () => {

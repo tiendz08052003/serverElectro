@@ -24,7 +24,7 @@ dotenv.config();
 const server = createServer(app); 
 const io = new Server(server, {
     cors: {
-        origin: "https://client-electro.vercel.app",
+        origin: "*",
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         allowedHeaders: ["my-custom-header"],
@@ -57,29 +57,29 @@ const port = process.env.PORT || 3001;
 
 app.use(methodOverride('_method'));
 
-// Add headers before the routes are defined
-app.use(function (req, res, next) {
+// // Add headers before the routes are defined
+// app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', "https://client-electro.vercel.app");
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', true);
 
-    // Pass to next layer of middleware
-    next();
-});
+//     // Pass to next layer of middleware
+//     next();
+// });
 
 // Cors khi p
 const corsOptions = {
-    origin: "https://client-electro.vercel.app",
+    origin: "*",
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,

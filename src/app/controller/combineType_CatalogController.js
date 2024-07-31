@@ -20,7 +20,6 @@ const combineType_CatalogController = {
             const dataCombineType_Catalog = await CombineType_Catalog.find()
             const dataType = await Type.find();
             const dataCatalog = await Catalog.find();
-            console.log(utils.convertListPropertyToObject(dataCombineType_Catalog));
             res.render("combineType_Catalog/list", {dataCombineType_Catalog, dataType, dataCatalog});
         } catch (error) {
             res.status(404).json(error);

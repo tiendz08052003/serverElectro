@@ -105,7 +105,6 @@ const accountController = {
                     try {
                         const data = await account.save();
                         await sendMailServices(data.email, "Cảm ơn bạn đã thêm tài khoản ELECTRO 👻", "<b>Thank you for registering an account Electro</b>")
-                        console.log(a)
                         res.status(200).json("Success");
                     } catch (error) {
                         res.status(401).json("Error");

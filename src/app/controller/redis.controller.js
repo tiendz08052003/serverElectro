@@ -80,12 +80,10 @@ const redisController = {
 
     // [PATCH] /cart/deleteKeyCartRedis
     delPromise: async (req, res, next) => {
-        console.log(req)
         try {
             const {
                 key
             } = req.body;
-            console.log(req.body)
             return res.json({
                 data: await delPromise(key)
             });

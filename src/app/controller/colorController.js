@@ -32,7 +32,6 @@ const colorController = {
         try {
             const x = await Color.find();
             const data = x.filter(y => y.deleted === false) 
-            console.log(data);
             res.render("color/list", {data})
         } catch (error) {
             res.status(404).json("Error");

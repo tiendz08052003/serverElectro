@@ -30,8 +30,7 @@ const detailsCatalogController = {
     //[get] /detailsCatalog/list
     list: async (req, res, next) => {
         try {
-            const dataDetailsCatalog =  await DetailsCatalog.find()
-            console.log(dataDetailsCatalog);
+            const dataDetailsCatalog =  await DetailsCatalog.find();
             res.render("detailsCatalog/list", {dataDetailsCatalog})
         } catch (error) {
             res.status(404).json("Error");

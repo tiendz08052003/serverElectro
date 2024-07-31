@@ -16,7 +16,6 @@ import helmet from "helmet";
 import {initRedis} from "./src/databases/init.redis.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 const app = express();
-
 // env
 dotenv.config();
 
@@ -52,16 +51,16 @@ app.use(function (req, res, next) {
     next();
 });
 
-// // Cors khi p
-// const corsOptions = {
-//     origin: process.env.REACT_URL,
-//     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-//     credentials: true, //access-control-allow-credentials:true
-//     optionSuccessStatus: 200,
-// };
+// Cors khi p
+const corsOptions = {
+    origin: process.env.REACT_URL,
+    methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+};
 
-// // cho phép kết nối với địa chỉ website khác
-// app.use(cors(corsOptions));
+// cho phép kết nối với địa chỉ website khác
+app.use(cors(corsOptions));
 
 //user middleware
 app.use(helmet())

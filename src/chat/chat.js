@@ -9,9 +9,6 @@ const chat = (io) => {
         
         socket.on("client-to-sever", async (obj) => {
 
-            console.log(arrayChat);
-            console.log(arrayQueue);
-
             arrayChat = obj.res?.map(x => {
                 return x.idAccount
             });
@@ -29,10 +26,8 @@ const chat = (io) => {
                 socket._id = obj.User._id
                 socket.join(obj.User._id)
                 socket.idRoom = obj.User._id
-                console.log(obj.User.role);
                 if(obj.User.role !== "admin")
                 {
-                    console.log(obj.User._id);
                     arrayQueue.push(obj.User._id)
                 }
                 try {
@@ -66,7 +61,6 @@ const chat = (io) => {
     
     
         socket.on("client-to-server-joinRoom", (arr) => {
-            console.log(arr)
             socket.join(arr[0])
             socket.idRoom = arr[0]
             arrayQueue.splice(arrayQueue.indexOf(socket.idRoom), 1)
@@ -104,7 +98,6 @@ const chat = (io) => {
         socket.on("client-to-server-finnishChat", (id) => {
             arrayQueue.push(id);
             io.sockets.emit("server-send-client-dsUserName", arrayQueue);
-            console.log(io.sockets.adapter.rooms)
             io.sockets.in(socket.idRoom).emit("server-send-client-finishChat")
         })
     

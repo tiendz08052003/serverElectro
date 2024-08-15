@@ -1,4 +1,4 @@
-import express, { request } from 'express';
+import express from 'express';
 import pkg from 'node-machine-id';
 const { machineIdSync } = pkg;
 const route = express.Router();
@@ -6,7 +6,6 @@ const route = express.Router();
 route.get('/', (req, res, next) => {
     res.render("main/index");
 });
-
 
 route.get('/api/machineId', (req, res, next) => {
     // Synchronous usage
@@ -17,7 +16,5 @@ route.get('/api/machineId', (req, res, next) => {
         console.error('Error:', err);
     }
 });
-
-
 
 export default route

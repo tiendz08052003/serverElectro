@@ -15,8 +15,11 @@ import storage from "./storage.js"
 import main from "./main.js"
 import chat from "./chat.js"
 import combineType_Catalog from "./combineType_Catalog.js"
+import auth from "./auth.js"
 
 function routes(app) {
+    
+    app.use('/auth', auth);
 
     app.use('/api/chat', chat);
 

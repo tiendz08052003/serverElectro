@@ -71,6 +71,6 @@ export const initRedis = () => {
 export const getRedis = () => client
 
 export const closeRedis = () => {
-    client.instanceConnect.disconnect();;
+    client.instanceConnect.disconnect();
 }
 

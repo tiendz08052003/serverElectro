@@ -15,6 +15,7 @@ import compression from "compression";
 import helmet from "helmet";
 import {initRedis} from "./src/databases/init.redis.js";
 import errorHandler from "./src/middleware/errorHandler.js";
+import doLoginWithGoogle from "./src/app/controller/googleController.js";
 const app = express();
 // env
 dotenv.config();
@@ -112,6 +113,8 @@ chat(io);
 
 // tạo port cho sever
 const port = process.env.PORT || 3001;
+
+doLoginWithGoogle();
 
 // lắng  nghe port và kết nối
 server.listen(port, () => {

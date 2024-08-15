@@ -8,7 +8,12 @@ const Schema = mongoose.Schema;
 const account = new Schema({
     name: {type: String, require: true},
     email: {type: String, unique: true, require: true},
-    password: {type: String, require: true},
+    password: {type: String},
+    type: {
+        type: String,
+        require: true,
+        default: "Local"
+    },
     role: {type: String, require: true, default: "member"},
 }, {
     timestamps: true

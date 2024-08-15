@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import sendMailServices from "../../Services/mailerServices.js";
 import Account from "../model/account.model.js";
 import Storage from "../model/storage.model.js";
+import otpGenerator from "otp-generator";
+import { lPushPromise, lRangePromise, rPushPromise } from "../../Services/redis.service.js";
 
 const accountController = {
     // [Get] /account
@@ -279,8 +281,82 @@ const accountController = {
             .catch(() => {
                 res.status(404).json("Error");
             })    
-    }
+    },
 
+
+    //[GET] /account/register
+    register: async (req, res, next) => {
+        try {
+            const { collection, email } = req.body;
+
+            const otp = otpGenerator.generate(6, {
+                digits: true,
+                lowerCaseAlphabets: false,
+                upperCaseAlphabets: false,
+                specialChars: false,
+            })
+            
+            const currentOtp = otp;
+            const salt = await bcrypt.genSalt(10);
+            const hashOtp = await bcrypt.hash(otp, salt);
+
+            await rPushPromise({collection, key: email, value: hashOtp});
+
+            await sendMailServices(email, "Mã OTP", `<span>Mã xác thực OTP: <b> ${currentOtp}</b></span>`)
+
+            return res.status(200).json({
+                status: 200,
+                message: "success",
+            });
+        } catch(error) {
+            next(error)
+        }
+    },
+
+    //[POST] /account/verifyOtpRegister
+    verifyOtpRegister: async (req, res, next) => {
+        
+        try {
+            const { collection, email, otp } = req.body;
+
+            const data = await lRangePromise({collection, key: email});
+            const hashOtp = data[data.length - 1];
+
+            const boolVerifyOtp = await bcrypt.compare(otp, hashOtp);
+
+            if(!boolVerifyOtp) {
+                return res.status(401).json({
+                    status: 401,
+                    message: "error",
+                });
+            }
+
+            return res.status(200).json({
+                status: 200,
+                message: "success",
+            });
+        
+        } catch(error) {
+            next(error)
+        }
+    },
+
+    registerSocialMedia: async (data) => {
+        try {
+            let user = await Account.findOne({email: data.email})
+            if(!user) {
+                const account = new Account({
+                    name: data.name,
+                    email: data.email,
+                    type: data.type,
+                });
+                user = await account.save();
+            }
+            return user;
+        } catch (error) {
+            return null;
+        }
+    }
 }
 
 export default accountController;

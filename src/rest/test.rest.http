@@ -51,4 +51,22 @@ Content-Type: application/json
 token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5OTJkOWE0YjkyZGZhMWM0ZjhlYTkiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzE5NTk1Nzg1LCJleHAiOjE3MTk1OTYzODV9.MmXJkcNFHMjt03qLzy3ZvTqR_CaS8-Wl-a2iXvWNF9s
 
 
+### get otp
+GET {{urlDev}}/api/account/register
+Content-Type: application/json
 
+{
+    "collection": "otp",
+    "email": "nguyendinhtien0805@gmail.com"
+}
+
+
+### post register
+POST {{urlDev}}/api/account/verifyOtpRegister
+Content-Type: application/json
+
+{
+    "collection": "otp",
+    "email": "nguyendinhtien0805@gmail.com",
+    "otp": "628851"
+}

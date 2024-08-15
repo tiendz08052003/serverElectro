@@ -1,28 +1,32 @@
 import express from 'express';
-import authController from '../app/controller/accountController.js';
+import accountController from '../app/controller/accountController.js';
 import middlewareAuth from '../middleware/middlewareAuth.js';
 
 
 const route = express.Router();
 
-route.patch("/submitChangePassword", middlewareAuth.verifyToken ,authController.changePasswordAccount);
+route.patch("/submitChangePassword", middlewareAuth.verifyToken ,accountController.changePasswordAccount);
 
-route.get("/checkPassword/:id", middlewareAuth.verifyToken, authController.verifyChangePasswordAccount);
+route.get("/checkPassword/:id", middlewareAuth.verifyToken, accountController.verifyChangePasswordAccount);
 
-route.patch("/accountForget/recover", middlewareAuth.verifyEmail ,authController.recoverPassword);
+route.patch("/accountForget/recover", middlewareAuth.verifyEmail ,accountController.recoverPassword);
 
-route.get("/accountForget", authController.sendEmail);
+route.get("/accountForget", accountController.sendEmail);
 
-route.post("/create/store", authController.store);
+route.post("/create/store", accountController.store);
 
-route.delete("/delete", middlewareAuth.verifyToken, middlewareAuth.verifyAdminAuth(["member"]), authController.delete);
+route.get("/register", accountController.register);
 
-route.post("/logout", middlewareAuth.verifyToken, authController.logoutAccount);
+route.post("/verifyOtpRegister", accountController.verifyOtpRegister);
 
-route.post("/login", authController.loginAccount);
+route.delete("/delete", middlewareAuth.verifyToken, middlewareAuth.verifyAdminAuth(["member"]), accountController.delete);
 
-route.post("/refresh", authController.refresh);
+route.post("/logout", middlewareAuth.verifyToken, accountController.logoutAccount);
 
-route.get("/", authController.account);
+route.post("/login", accountController.loginAccount);
+
+route.post("/refresh", accountController.refresh);
+
+route.get("/", accountController.account);
 
 export default route

@@ -284,62 +284,62 @@ const accountController = {
     },
 
 
-    // //[GET] /account/register
-    // register: async (req, res, next) => {
-    //     try {
-    //         const { collection, email } = req.body;
+    //[GET] /account/register
+    register: async (req, res, next) => {
+        try {
+            const { collection, email } = req.body;
 
-    //         const otp = otpGenerator.generate(6, {
-    //             digits: true,
-    //             lowerCaseAlphabets: false,
-    //             upperCaseAlphabets: false,
-    //             specialChars: false,
-    //         })
+            const otp = otpGenerator.generate(6, {
+                digits: true,
+                lowerCaseAlphabets: false,
+                upperCaseAlphabets: false,
+                specialChars: false,
+            })
             
-    //         const currentOtp = otp;
-    //         const salt = await bcrypt.genSalt(10);
-    //         const hashOtp = await bcrypt.hash(otp, salt);
+            const currentOtp = otp;
+            const salt = await bcrypt.genSalt(10);
+            const hashOtp = await bcrypt.hash(otp, salt);
 
-    //         await rPushPromise({collection, key: email, value: hashOtp});
+            await rPushPromise({collection, key: email, value: hashOtp});
 
-    //         await sendMailServices(email, "Mã OTP", `<span>Mã xác thực OTP: <b> ${currentOtp}</b></span>`)
+            await sendMailServices(email, "Mã OTP", `<span>Mã xác thực OTP: <b> ${currentOtp}</b></span>`)
 
-    //         return res.status(200).json({
-    //             status: 200,
-    //             message: "success",
-    //         });
-    //     } catch(error) {
-    //         next(error)
-    //     }
-    // },
+            return res.status(200).json({
+                status: 200,
+                message: "success",
+            });
+        } catch(error) {
+            next(error)
+        }
+    },
 
-    // //[POST] /account/verifyOtpRegister
-    // verifyOtpRegister: async (req, res, next) => {
+    //[POST] /account/verifyOtpRegister
+    verifyOtpRegister: async (req, res, next) => {
         
-    //     try {
-    //         const { collection, email, otp } = req.body;
+        try {
+            const { collection, email, otp } = req.body;
 
-    //         const data = await lRangePromise({collection, key: email});
-    //         const hashOtp = data[data.length - 1];
+            const data = await lRangePromise({collection, key: email});
+            const hashOtp = data[data.length - 1];
 
-    //         const boolVerifyOtp = await bcrypt.compare(otp, hashOtp);
+            const boolVerifyOtp = await bcrypt.compare(otp, hashOtp);
 
-    //         if(!boolVerifyOtp) {
-    //             return res.status(401).json({
-    //                 status: 401,
-    //                 message: "error",
-    //             });
-    //         }
+            if(!boolVerifyOtp) {
+                return res.status(401).json({
+                    status: 401,
+                    message: "error",
+                });
+            }
 
-    //         return res.status(200).json({
-    //             status: 200,
-    //             message: "success",
-    //         });
+            return res.status(200).json({
+                status: 200,
+                message: "success",
+            });
         
-    //     } catch(error) {
-    //         next(error)
-    //     }
-    // },
+        } catch(error) {
+            next(error)
+        }
+    },
 
     registerSocialMedia: async (data) => {
         try {

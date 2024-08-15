@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import sendMailServices from "../../Services/mailerServices.js";
 import Account from "../model/account.model.js";

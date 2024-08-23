@@ -9,6 +9,7 @@ import { lPushPromise, lRangePromise, rPushPromise } from "../../Services/redis.
 const accountController = {
     // [Get] /account
     account: (req, res, next) => {
+        console.log(1)
         Account.find()
             .then(data => {
                 res.json(data);
